@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>象塔直播-微信分享设置</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/settings.css">
+  <link rel="stylesheet" href="layui/css/layui.css">
+  <style>
+    .use_process{ padding-top: 20px;}
+    .tip{ padding: 0 15px}
+    .layui-form-label img{ width: 80px; height: 80px;}
+    #pickfiles{ cursor: pointer;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <header class="top"></header>
+  <section class="body">
+    <div class="wrapper">
+      <header class="cn"></header>
+      <div class="content-warp">
+        <div class="leftnav fl" id="navBar">
+        </div>
+        <div class="content">
+          <div class="long_box fl" style="position: relative">
+            <div class="long_header">
+              <span>微信分享设置</span>
+            </div>
+            <div class="long_switch use_process long_content">
+              <form class="layui-form" action="">
+                <div class="layui-form-item">
+                  <label class="layui-form-label"
+                         style="width:200px;font-size:18px;text-align: left">设置（发送给朋友）</label>
+                </div>
+               <div class="layui-form-item">
+                <!-- <label class="layui-form-label">分享标题：</label> -->
+                <div class="layui-input-inline" style="width:565px">
+                  <input type="text" name="sharetit" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input" maxlength="30" >
+                </div>
+              </div>
+              <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label" style=" padding-left:0; text-align:left">
+                    <img id="pickfiles" class="shareimg" src="images/preview_exp.JPG" alt="">
+                </label>
+                <div class="layui-input-inline" style="width:450px">
+                  <textarea name="sharedesc" placeholder="请输入内容" class="layui-textarea" maxlength="120"></textarea>
+                </div>
+              </div>
+              </form>
+            </div>
+            <div class="long_content use_process">
+               <div class="layui-form-item">
+                  <label class="layui-form-label"
+                         style="width:200px;font-size:18px;text-align: left">设置（发送到朋友圈）</label>
+                </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label" style=" padding-left:0; text-align:left"><img src="images/preview_exp.JPG" class="shareimg" alt=""></label>
+                <div class="layui-input-inline" style="width:450px">
+                  <textarea name="sharedesc" placeholder="请输入内容" class="layui-textarea" maxlength="120"></textarea>
+                </div>
+              </div>
+              
+            </div>
+            <div class="floor_bottom">
+              <button class="btn-merge fr" id="save">保存</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="layui/layui.js"></script>
+<script src="js/use.js"></script>
+<script src="js/main.js"></script>
+<script src='js/qiniu/bower_components/plupload/js/moxie.js'></script>
+  <script src='js/qiniu/bower_components/plupload/js/plupload.dev.js'></script>
+  <script src='js/qiniu/bower_components/qiniu/dist/qiniu.js'></script>
+<script>
+  getHardsize();
+  function getHardsize() {
+    $.ajax({
+      type:"post",
+      url:"http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
+      dataType:"json",
+      success:function (data) {
+        if(data.code==1013){
+          location.href="http://www.xiangtazhibo.com/newlive/webow/login.html";
+        }
+      }
+    });
+  }
+</script>
+<script>
+  'use strict';
+
+$(function () {
+layui.use(['element', 'form', 'layer'], function () {
+  $.ajax({
+    url: 'http://www.xiangtazhibo.com/newlive/mivechannel/getLiveSet.do',
+    type: 'get',
+    datType: 'json',
+    data: { "liveid": liveid, "types": 13 },
+    success: function success(result) {
+      console.log(result);
+      
+        if (result.success) {
+          var share = result.data.share;
+          $("input[name=sharetit]").val(share.sharetitle);
+          $("textarea[name=sharedesc]").val(share.sharecontent);
+          $(".shareimg").attr("src",share.shareimg);
+        } else {
+          layer.msg(result.msg);
+        }
+      
+    }
+  });
+
+$("textarea[name='sharedesc']").eq(0).on("propertychange input", function () {
+    // $(".wordsnum").text($("input[name='nickname']").val().length);
+    $("textarea[name='sharedesc']").eq(1).val($("textarea[name='sharedesc']").eq(0).val());
+  });
+
+$("textarea[name='sharedesc']").eq(1).on("propertychange input", function () {
+    // $(".wordsnum").text($("input[name='nickname']").val().length);
+    $("textarea[name='sharedesc']").eq(0).val($("textarea[name='sharedesc']").eq(1).val());
+  });
+$("#save").click(function () {
+  layui.use(['layer'], function () {
+  var sharetit = $.trim($("input[name=sharetit]").val());
+  var sharedesc = $.trim($("input[name=sharedesc]").val());
+  var postdata={"liveid": liveid, "type": 7, shareimg: $(".shareimg").attr("src"),status:1,sharecontent:$("textarea[name='sharedesc']").eq(0).val()};
+  if(sharetit != ""){
+    postdata.sharetitle=sharetit;
+  }
+  if(sharedesc != ""){
+    postdata.sharecontent=sharedesc;
+  }
+  $.ajax({
+    url: 'http://www.xiangtazhibo.com/newlive/mLivesetting/setSomeSet.do',
+    type: 'post',
+    dataType: 'json',
+    data: postdata,
+    success: function success(data) {
+      if(data["success"])    
+        layer.msg("保存成功");      
+      else
+        layer.msg(data["msg"]);      
+    }
+  });
+  });
+});
+});
+});
+getcn('channel');
+layui.use('form', function () {
+  var form = layui.form();
+});
+
+var qiniu_token = ''; //七牛token
+  var getoken = new Promise(function (resolve) {
+    $.post(website + "mImhistory/getImgUptoken.do", function (d) {
+      qiniu_token = d["data"]["uptoken"];
+      var uploader = Qiniu.uploader({
+        runtimes: 'html5,flash,html4', // 上传模式,依次退化
+        browse_button: 'pickfiles', // 上传选择的点选按钮，**必需**
+        // 在初始化时，uptoken, uptoken_url, uptoken_func 三个参数中必须有一个被设置
+        // 切如果提供了多个，其优先级为 uptoken > uptoken_url > uptoken_func
+        // 其中 uptoken 是直接提供上传凭证，uptoken_url 是提供了获取上传凭证的地址，如果需要定制获取 uptoken 的过程则可以设置 uptoken_func
+        uptoken: qiniu_token, // uptoken 是上传凭证，由其他程序生成
+        // uptoken_url: '/uptoken',         // Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）
+        // uptoken_func: function(file){    // 在需要获取 uptoken 时，该方法会被调用
+        //    // do something
+        //    return uptoken;
+        // },
+        get_new_uptoken: false, // 设置上传文件的时候是否每次都重新获取新的 uptoken
+        // downtoken_url: '/downtoken',
+        // Ajax请求downToken的Url，私有空间时使用,JS-SDK 将向该地址POST文件的key和domain,服务端返回的JSON必须包含`url`字段，`url`值为该文件的下载地址
+        // unique_names: true,              // 默认 false，key 为文件名。若开启该选项，JS-SDK 会为每个文件自动生成key（文件名）
+        // save_key: true,                  // 默认 false。若在服务端生成 uptoken 的上传策略中指定了 `sava_key`，则开启，SDK在前端将不对key进行任何处理
+        domain: 'http://img.xiangtazhibo.com/', // bucket 域名，下载资源时用到，如：'http://xxx.bkt.clouddn.com/' **必需**
+        // container: 'container',             // 上传区域 DOM ID，默认是 browser_button 的父元素，
+        max_file_size: '100mb', // 最大文件体积限制
+        flash_swf_url: 'path/of/plupload/Moxie.swf', //引入 flash,相对路径
+        max_retries: 3, // 上传失败最大重试次数
+        dragdrop: false, // 开启可拖曳上传
+        drop_element: 'container', // 拖曳上传区域元素的 ID，拖曳文件或文件夹后可触发上传
+        chunk_size: '4mb', // 分块上传时，每块的体积
+        auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传,
+        multi_selection: false,
+        //x_vars : {
+        //    自定义变量，参考http://developer.qiniu.com/docs/v6/api/overview/up/response/vars.html
+        //    'time' : function(up,file) {
+        //        var time = (new Date()).getTime();
+        // do something with 'time'
+        //        return time;
+        //    },
+        //    'size' : function(up,file) {
+        //        var size = file.size;
+        // do something with 'size'
+        //        return size;
+        //    }
+        //},
+        init: {
+          'FilesAdded': function FilesAdded(up, files) {
+            plupload.each(files, function (file) {
+              // 文件添加进队列后,处理相关的事情
+            });
+          },
+          'BeforeUpload': function BeforeUpload(up, file) {
+            // 每个文件上传前,处理相关的事情
+          },
+          'UploadProgress': function UploadProgress(up, file) {
+            // 每个文件上传时,处理相关的事情
+          },
+          'FileUploaded': function FileUploaded(up, file, info) {
+            // 每个文件上传成功后,处理相关的事情
+            // 其中 info 是文件上传成功后，服务端返回的json，形式如
+            // {
+            //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
+            //    "key": "gogopher.jpg"
+            //  }
+            // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
+
+            var domain = up.getOption('domain');
+            var res = $.parseJSON(info);
+            var sourceLink = domain + res.key; //获取上传成功后的文件的Url
+            $(".shareimg").attr("src",sourceLink);
+          },
+          'Error': function Error(up, err, errTip) {
+            //上传出错时,处理相关的事情
+          },
+          'UploadComplete': function UploadComplete() {
+            //队列文件处理完毕后,处理相关的事情
+          }
+        }
+      });
+    });
+  });
+
+
+
+</script>
+</body>
+</html>

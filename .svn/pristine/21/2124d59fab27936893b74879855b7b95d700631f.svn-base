@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>象塔直播-直播监控</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="layui/css/layui.css">
+	<link rel="stylesheet" href="css/global.css">
+	<link rel="stylesheet" href="css/monitor.css">
+	<style>
+		#outputexcel{ margin-right: 80px; margin-bottom: 10px;}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header class="top"></header>
+		<section class="body">
+			<div class="wrapper">
+				<header class="cn"></header>
+				<div class="content-warp">
+					<h2>用户管理<a href="javascript:;" class="btn-functions fr" id="outputexcel">导出表格</a></h2>
+					<div class="content usermanage-content">
+						<div class="layui-form">
+					      <input type="checkbox" name="showphone" lay-skin="switch" lay-filter="ishasphone" checked>
+					      <label class="layui-form-label labelright">仅显示统计了手机号的用户</label>
+					    </div>
+				    	<table class="layui-table" id="getusers">
+						  <colgroup>
+						    <col width="168">
+						    <col width="168">
+						    <col width="138">
+						    <col width="168">
+						    <col width="80">
+						    <col>
+						    <col>							 
+						  </colgroup>
+						  <thead>
+						    <tr>
+						      <th>用户昵称</th>
+						      <th>观看直播时长/分钟</th>
+						      <th>手机号</th>
+						      <th>用户地址</th>
+						      <th>聊天数</th>
+							      <th>首次登陆时间</th>
+							      <th>最后在线时间</th>
+							    </tr> 
+							  </thead>
+							  <tbody>
+							  </tbody>
+							</table>
+							<div id="list"></div>								
+								
+							</div>	
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>	
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="layui/layui.js"></script>
+		<script src="js/main.js"></script>
+		<script src='js/use.js'></script>
+		<script>
+			"use strict";
+	getcn('usermanage');
+	function getHardsize() {
+		$.ajax({
+			type: "post",
+			url: "http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
+			dataType: "json",
+			success: function success(data) {
+				if (data.code == 1013) {
+					location.href = "http://www.xiangtazhibo.com/newlive/webow/login.html";
+				}
+			}
+		});
+	}
+
+
+
+	function getUserData(ishasPhone,startNum,perNum){
+		$.ajax({
+	        url:website + 'muser/getUserData.do',
+	        type:"post",
+	        dataType:"json",
+	        data:{liveId:liveid,hasPhone:ishasPhone,startNum:startNum,perNum:perNum},
+	        success:function(data){
+	            var html='';
+	            for(var i=0;i<data.data.userDataList.length;i++){
+	                var p=data.data.userDataList[i];
+	                html+='<tr><td>'+ p.username+'</td><td>'+ p.timesum+'</td><td>'+ p.phone+'</td><td>'+ p.province+'/'+p.city+'</td><td>'+ p.imcount+'</td><td>'+ p.createtime+'</td><td>'+ p.lastlogintime+'</td></tr>';
+	            }
+	            $("#getusers tbody").html(html);
+	            layui.use(['element', 'form', 'layer', 'laypage'], function () {
+					var laypage = layui.laypage;
+					laypage({
+						cont:'list',
+						pages:data.pageCount,
+						curr:data.currentPage,
+						skin:'#5383c3',
+						jump:function(obj,first){
+							if(!first)
+								getUserData($("input[name=showphone]").prop("checked"),(obj.curr-1)*10,10);
+							// console.log(obj)
+						}
+					});
+				});
+				$("#outputexcel").attr("href","http://www.xiangtazhibo.com/newlive/muser/getUserDataExcel.do?liveId="+liveid+"&hasPhone="+ishasPhone+"&startNum="+startNum+"&perNum="+perNum);
+            console.timeEnd(1);
+        },
+        beforeSend:function(){
+        	console.time(1);
+        	var html='<tr><td colspan="7">加载中，请稍后...</td></tr>';
+        	$("#getusers tbody").html(html);
+        }
+    });
+}
+$(function () {
+	layui.use(['element', 'form', 'layer', 'laypage'], function () {
+		var element = layui.element();
+		var form = layui.form();
+		var layer = layui.layer;
+		$("input[name=showphone]").prop("checked")==true?getUserData(true,0,10):getUserData(false,0,10);
+		form.on('switch(ishasphone)', function(data){
+			data.elem.checked==true?getUserData(true,0,10):getUserData(false,0,10);
+		});
+
+	});
+});
+
+	</script>	
+</body>
+</html>

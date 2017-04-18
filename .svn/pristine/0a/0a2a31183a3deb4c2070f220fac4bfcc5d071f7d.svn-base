@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>象塔直播-倒计时</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/iconfont/iconfont.css">
+
+  <link rel="stylesheet" href="css/settings.css">
+  <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+<body>
+<div class="container">
+  <header class="top"></header>
+  <section class="body">
+    <div class="wrapper">
+      <header class="cn"></header>
+      <div class="content-warp">
+        <div class="leftnav fl" id="navBar">
+        </div>
+        <div class="content">
+          <div class="content_l fl">
+            <img src="images/phone.png" alt="">
+          </div>
+          <div class="content_r fl">
+            <div class="window_box">
+              <div class="window_title">
+                <span>直播倒计时</span>
+              </div>
+              <!--开关层-->
+              <div class="window_content">
+                <div class="floor_top" style="padding-top:20px;height:75px">
+                  <form class="layui-form" action="">
+                    <div class="layui-form-item">
+                      <label class="layui-form-label"
+                             style="width:120px;font-size:18px;text-align: left">倒计时开关：</label>
+                      <div class="layui-input-block">
+                        <input type="checkbox" id="switch" name="open" lay-skin="switch" lay-filter="switchTest"
+                               title="开关">
+                        <div class="layui-unselect layui-form-switch layui-form-onswitch"><i></i></div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!--内容层-->
+              <div class="floor_center">
+                <p style="font-size: 14px">直播开始时间(<span class="red_warn">*系统默认直播倒计时时间为当前时间</span>)</p>
+                <div class="layui-inline" style="margin-top:16px">
+                  <input class="layui-input" id="time" placeholder="请选择" style="background-color: #f9f9f9;border-radius: 5px" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                </div>
+                <p style="margin-top:24px">
+                  <span class="red_warn">*</span>
+                  <span>倒计时功能开启时，会以倒计时形式（xx:xx:xx）显示在直播页面</span>
+                </p>
+              </div>
+              <!--按钮层-->
+              <div class="floor_bottom">
+                <button class="btn-merge fr" id="saveButton">保存</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="layui/layui.js"></script>
+<script src="js/main.js"></script>
+<script src="js/use.js"></script>
+<script>
+getcn();
+  var liveid = null;
+ $(function(){
+   $.ajax({
+     type: "POST",
+     dataType: 'JSON',
+     url: website + 'mivechannel/getLiveSet.do',
+     data: {
+       'liveid':liveid,
+       'types':2
+     },
+     success: function (result) {
+       if (result) {
+         var timecountopen = result.data.timer.timecountopen;
+         var timecountend = result.data.timer.timecountendStr;
+         // var timecountend = result.data.timer.timecountend;
+         if(result.success){
+           if(timecountopen == 0){
+             $('#switch').prop('checked',false)
+           }else{
+             $('#switch').prop('checked',true)
+             $('.layui-unselect').addClass('layui-form-onswitch')
+           }
+           $('#time').val(timecountend)
+         }else{
+           layer.msg(result.msg)
+         }
+       }
+     },
+     error: function () {
+       console.log("error");
+     }
+   })
+   layui.use('form', function () {
+     var form = layui.form();
+   });
+   layui.use('laydate', function(){
+     var laydate = layui.laydate;
+   });
+   $('body').on('click', '#saveButton', function () {
+     var status = $('#switch').is(':checked')?1:0;
+     var time = $('#time').val();
+     if(status == 1&&time == ''){
+       layer.msg('时间不能为空');
+       return;
+     }
+     $.ajax({
+       type: "POST",
+       dataType: 'JSON',
+       url: website + 'mLivesetting/setSomeSet.do',
+       data: {
+         'liveid':liveid,
+         'type':1,
+         'status':status,
+         'time':time
+       },
+       beforeSend: function () {
+         $('#saveButton').attr('disabled', true);
+       },
+       success: function (result) {
+         if (result) {
+           if(result.success){
+             layer.msg('保存成功');
+           }else{
+             layer.msg(msg);
+           }
+         }
+
+       },
+       complete: function () {
+         $('#saveButton').attr('disabled', false);
+       },
+       error: function () {
+         console.log("error");
+       }
+     })
+   })
+ })
+</script>
+</body>
+</html>

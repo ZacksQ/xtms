@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>象塔直播-互动投票</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="layui/css/layui.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/settings.css">
+  
+  <style>
+    .use_process{ padding-top: 20px;}
+    .tip{ padding: 0 15px}
+    .layui-table tbody td:first-of-type{ text-align: center; }
+    .layui-table tbody td:first-of-type input{ -webkit-appearance: checkbox;}
+    .long_box{ min-height: 600px;}
+    #configoption{ display: none;}
+    #optionlist li img{ width: 100px; vertical-align: middle; margin-right: 10px; margin-bottom: 5px;}
+    #optionlist li{ line-height: 2; border-bottom: 1px solid rgb(250, 250, 250); margin-bottom: 8px;}
+    #optionlist li .del{ cursor: pointer;}
+    .long_box{ height: auto;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <header class="top"></header>
+  <section class="body">
+    <div class="wrapper">
+      <header class="cn"></header>
+      <div class="content-warp">
+        <div class="leftnav fl" id="navBar">
+        </div>
+        <div class="content">
+          <div class="long_box fl" style="position: relative">        
+           
+            <div class="long_content use_process">
+              <form class="layui-form" action="">
+               <div class="layui-form-item">
+                <label class="layui-form-label">投票主题：</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="votesubject" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input" maxlength="16">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label" >截止时间：</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="voteenddate" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input" maxlength="16">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">选票张数：</label>
+                <div class="layui-input-inline" style="width:50px;">
+                  <input type="number" name="votetimes" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="1">
+                </div>
+                <label class="layui-form-label" style=" padding-left:0; text-align:left">张</label>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">投票结果：</label>
+                <div class="layui-input-inline">
+                  <input type="checkbox" id="switch" name="open" lay-skin="switch" lay-filter="switchTest" title="开关">
+                  <label class="layui-form-label labelright">向用户公开</label>
+              </div>
+              <a href="javascript:;" class="btn-functions fr" id="addvote">设置活动</a>
+              <div class="clear"></div>
+              <div id="configoption" style="border:1px solid #fafafa; padding:10px 30px;">
+                <div class="layui-form-item">
+                  <label class="layui-form-label" style="padding-left:0; text-align:left" >投票选项名称：</label>
+                  <div class="layui-input-inline">
+                    <input type="text" name="voteoption" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input" maxlength="16">
+                  </div>
+                </div>
+                <div class="con" id="pickfiles" style="display: block; width:100px; height:60px; padding-top:4px;">
+                    <h3><img src="images/upload.png" alt=""></h3>
+                  </div>
+                  <p class="tip" style="margin-top:30px;"><span class="red">*</span> 如需上传图片请确保：图片大小2M以内，支持PNG,JPG,JPEG格式。建议尺寸：612px*390px。</p>
+                  <a href="javascript:;" class="btn-functions fr" id="addoption">添加选项</a>
+                  <div class="clear"></div>
+                <ul id="optionlist">
+                  
+                </ul>   
+              </div>
+              </form>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="layui/layui.js"></script>
+<script src="js/use.js"></script>
+<script src="js/main.js"></script>
+<script src='js/qiniu/bower_components/plupload/js/moxie.js'></script>
+  <script src='js/qiniu/bower_components/plupload/js/plupload.dev.js'></script>
+  <script src='js/qiniu/bower_components/qiniu/dist/qiniu.js'></script>
+<script>
+  getHardsize();
+  function getHardsize() {
+    $.ajax({
+      type:"post",
+      url:"http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
+      dataType:"json",
+      success:function (data) {
+        if(data.code==1013){
+          location.href="http://www.xiangtazhibo.com/newlive/webow/login.html";
+        }
+      }
+    });
+  }
+
+  'use strict';
+
+$(function () {
+  
+  layui.use(['element', 'form', 'layer','laydate'], function () {
+    var request = GetRequest();
+    var form = layui.form();
+    var laydate = layui.laydate;
+    if(request.hasOwnProperty("voteid")){
+      $("#configoption").show();
+    }
+    $("#addvote").click(function(){
+      var postdata = {};
+      postdata.name = $.trim($("input[name=votesubject]").val());
+      postdata.endtime = $.trim($("input[name=voteenddate]").val());
+      postdata.number = $.trim($("input[name=votetimes]").val());
+      if(postdata.name == ""){
+        layer.msg("投票主题不能为空");
+        return false;
+      }
+      if(postdata.endtime == ""){
+        layer.msg("投票截止日期不能为空");
+        return false;
+      }
+      if(postdata.number == ""){
+        layer.msg("投票张数不能为空");
+        return false;
+      }
+      postdata.showpeople = Number($("#switch").prop("checked"));
+      if(request.hasOwnProperty("voteid"))
+        postdata.id = request["voteid"];
+    $.ajax({
+      url: website + (request["voteid"]?'mVote/updateVote.do':'mVote/addVote.do'),
+      datType: 'json',
+      type: "post",
+      data: postdata,
+      success: function(d){
+        if(d["success"]){
+          layer.msg("投票活动设置成功！",function(){if(request.hasOwnProperty("voteid")==false)window.location.href="votesetting.html?liveid="+liveid});
+        }else{
+          layer.msg(d.msg)
+        }
+      }
+    }); 
+  });
+     var request = GetRequest();
+    if(request["voteid"]){
+        $.ajax({
+          url: website + 'mVote/getVoteOption.do',
+          type: 'post',
+          datType: 'json',
+          data: { "voteId": request["voteid"]},
+          success: function success(result) {
+            if (result) {
+              var data = result.data;
+              $("input[name=votesubject]").val(data["name"]);
+              $("input[name=voteenddate]").val(data["endtimeStr"]);
+              $("input[name=votetimes]").val(data["number"]);
+              $("input[name=open]").prop("checked",data["showpeople"]);
+              // $("input[name=voteoption]").val(data["name"]);
+              var options = data.options;
+              for(var op in options){
+                $("#optionlist").append('<li data-optionid='+options[op]["id"]+'><img src="'+options[op]["imgurl"]+'" alt="" /> '+options[op]["name"]+'<div class="del fr" onclick="deloption(\''+options[op]["id"]+'\')">x</div></li>')
+              }
+          }
+        }
+        });
+      }
+
+      $("#addoption").click(function(){
+        if($(".con").attr("data-img")==undefined){
+          layer.msg("图片未上传");
+          return false;
+        }
+        if($.trim($("input[name=voteoption]").val())==""){
+          layer.msg("选项名称不能为空");
+          return false;
+        }
+        $.ajax({
+          url: website + 'mVote/addOption.do',
+          type: 'post',
+          datType: 'json',
+          data:{name:$("input[name=voteoption]").val(),content:"设计上没这属性，不要必填啊",imgurl: $(".con").attr("data-img"),parentid:request["voteid"]},
+          success:function(d){
+            if(d["success"]){
+              layer.msg("添加成功");
+              $(".con").css({"background":"none"})
+              $("#optionlist").append('<li><img src="'+$(".con").attr("data-img")+'" alt="" /> '+$("input[name=voteoption]").val()+'</li>')
+            }else{
+              layer.msg(d.msg);
+            }
+          }
+        });
+      });
+  });
+});
+
+
+getcn('channel');
+layui.use('form', function () {
+  var form = layui.form();
+});
+
+function deloption(id){
+    $.ajax({
+      url: website + 'mVote/deleteOption.do',
+      type: 'post',
+      dataType: 'json',
+      data: {"optionId": id},
+      success:function(d){
+        if(d["success"]){
+          $("li[data-optionid="+id+"]").remove();
+          layer.msg("删除成功");
+        }else{
+          layer.msg(d.msg);
+        }
+      }
+    });
+  }
+
+var qiniu_token = ''; //七牛token
+
+    $.post(website + "mImhistory/getImgUptoken.do", function (d) {
+      qiniu_token = d["data"]["uptoken"];
+      var uploader = Qiniu.uploader({
+        runtimes: 'html5,flash,html4', // 上传模式,依次退化
+        browse_button: 'pickfiles', // 上传选择的点选按钮，**必需**
+        // 在初始化时，uptoken, uptoken_url, uptoken_func 三个参数中必须有一个被设置
+        // 切如果提供了多个，其优先级为 uptoken > uptoken_url > uptoken_func
+        // 其中 uptoken 是直接提供上传凭证，uptoken_url 是提供了获取上传凭证的地址，如果需要定制获取 uptoken 的过程则可以设置 uptoken_func
+        uptoken: qiniu_token, // uptoken 是上传凭证，由其他程序生成
+        // uptoken_url: '/uptoken',         // Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）
+        // uptoken_func: function(file){    // 在需要获取 uptoken 时，该方法会被调用
+        //    // do something
+        //    return uptoken;
+        // },
+        get_new_uptoken: false, // 设置上传文件的时候是否每次都重新获取新的 uptoken
+        // downtoken_url: '/downtoken',
+        // Ajax请求downToken的Url，私有空间时使用,JS-SDK 将向该地址POST文件的key和domain,服务端返回的JSON必须包含`url`字段，`url`值为该文件的下载地址
+        unique_names: true,              // 默认 false，key 为文件名。若开启该选项，JS-SDK 会为每个文件自动生成key（文件名）
+        // save_key: true,                  // 默认 false。若在服务端生成 uptoken 的上传策略中指定了 `sava_key`，则开启，SDK在前端将不对key进行任何处理
+        domain: 'http://img.xiangtazhibo.com/', // bucket 域名，下载资源时用到，如：'http://xxx.bkt.clouddn.com/' **必需**
+        // container: 'container',             // 上传区域 DOM ID，默认是 browser_button 的父元素，
+        max_file_size: '100mb', // 最大文件体积限制
+        flash_swf_url: 'path/of/plupload/Moxie.swf', //引入 flash,相对路径
+        max_retries: 3, // 上传失败最大重试次数
+        dragdrop: false, // 开启可拖曳上传
+        drop_element: 'container', // 拖曳上传区域元素的 ID，拖曳文件或文件夹后可触发上传
+        chunk_size: '4mb', // 分块上传时，每块的体积
+        auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传,
+        multi_selection: false,
+        //x_vars : {
+        //    自定义变量，参考http://developer.qiniu.com/docs/v6/api/overview/up/response/vars.html
+        //    'time' : function(up,file) {
+        //        var time = (new Date()).getTime();
+        // do something with 'time'
+        //        return time;
+        //    },
+        //    'size' : function(up,file) {
+        //        var size = file.size;
+        // do something with 'size'
+        //        return size;
+        //    }
+        //},
+        init: {
+          'FilesAdded': function FilesAdded(up, files) {
+            plupload.each(files, function (file) {
+              // 文件添加进队列后,处理相关的事情
+            });
+          },
+          'BeforeUpload': function BeforeUpload(up, file) {
+            // 每个文件上传前,处理相关的事情
+          },
+          'UploadProgress': function UploadProgress(up, file) {
+            // 每个文件上传时,处理相关的事情
+          },
+          'FileUploaded': function FileUploaded(up, file, info) {
+            // 每个文件上传成功后,处理相关的事情
+            // 其中 info 是文件上传成功后，服务端返回的json，形式如
+            // {
+            //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
+            //    "key": "gogopher.jpg"
+            //  }
+            // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
+
+            var domain = up.getOption('domain');
+            var res = $.parseJSON(info);
+            var sourceLink = domain + res.key; //获取上传成功后的文件的Url
+            $(".con").css({"background":"url("+sourceLink+") no-repeat center","background-size":"100% auto"});//别问为什么这么写 lan..
+            $(".con").attr("data-img",sourceLink)
+          },
+          'Error': function Error(up, err, errTip) {
+            //上传出错时,处理相关的事情
+          },
+          'UploadComplete': function UploadComplete() {
+            //队列文件处理完毕后,处理相关的事情
+          }
+        }
+      });
+    });
+
+
+</script>
+</body>
+</html>

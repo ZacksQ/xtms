@@ -1,0 +1,90 @@
+.mergemedia .content-body{padding: 0;}
+.content-body{ height: auto; padding: 0;}
+.live-ctrl{width: 498px; height: 253px;border-bottom: 1px solid #c5c5c5; padding-left: 30px}
+.live-type{width: 474px; padding-left: 30px; padding-right: 24px;}
+.content-warp .content{ height: 717px; padding-bottom:0 !important; margin-left: 0; padding: 0}
+.content-body{ height: 100%;}
+.con-left,
+.con-mid,
+.con-right{ height: 100%;}
+.con-left{border-right: 1px solid #c5c5c5;}
+.live-ctrl-video-warp .live-video{ width: 350px; height: 196px; margin-right: 24px; display: inline-block;}
+.live-ctrl-video-warp .live-video img{ width: 100%;}
+h3{ font-size: 14px; margin: 10px 0 12px 0; color: #555}
+.break-live{ display: inline-block; width: 100px; height:196px; vertical-align: top;}
+.break-live .btn-mid{ width: 100px; /*margin-top: 36.25px;*/margin-top: 72.5px;}
+#startlive,#breaklive{ display: none;}
+.con-mid{ width: 472px; border-right: 1px solid #c5c5c5;}
+.btline{ border-bottom: 1px solid #c5c5c5;}
+
+.layui-tab-title .layui-this{ background-color: #77b0f0; color: #fff; border-radius: 8px;}
+.layui-tab-title .layui-this:after{ border: 0}
+.layui-tab-title{ border-bottom: 0}
+.layui-tab-title li{ background-color: #f9f9f9; width: 110px; color: #555;}
+
+.live-operation .btn-default{ font-size: 14px; padding:8px 0; width: 100px; float: left; margin-top: 3.5px;}
+.live-operation:after,.im-msg-list li:after{content: ''; visibility: hidden; clear: both; height: 0; display: block;}
+.live-operation{background-color: #f1f1f1;margin-bottom: 16px; padding: 20px;}
+.live-operation p{line-height: 1.8;}
+.layui-tab-content{ padding: 10px 0;}
+.live-push-url .btn-default{ padding: 0; height: 32px; line-height: 32px; width: 75px; margin-right: 0;}
+.live-push-url{ margin-bottom: 24px;}
+.live-push-url input{ width: 364px; height: 32px; line-height: 32px; margin-right: 10px; border:0; box-shadow: inset 1px 0 3px rgba(0,0,0,.4); border-radius: 8px; padding: 0 10px}
+.live-type h4{ font-size: 18px; text-align: center; color: #555; margin-bottom: 24px; margin-top: 20px;}
+.im-config>div{ font-size: 14px; line-height: 33px; color: #555;}
+.mid-wrap{ padding-left: 16px; padding-right: 16px;}
+.layui-input-block{margin-left: 0; margin-right: 34px;}
+.layui-form-switch{ margin-top: 6px}
+.im-msg-list{ height: 478px;}
+.im-wrap{ padding: 8px; position: relative;}
+.im-wrap textarea{resize:none; width: 100%; border: 1px solid #77b0f0; padding: 8px; box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box; margin-bottom: 8px; background-color: #f9f9f9}
+.im-icon-wrap{ display: inline-block; margin-right: 8px; width: 30px; height: 30px; vertical-align: top; line-height: 27.5px; position: relative; cursor:pointer;}
+.im-icon-wrap img{ vertical-align: middle;}
+.im-icon-wrap input{ position: absolute; opacity: 0; left: 0; top: 0;}
+.im-form .btn-mid{ font-size: 14px; width: 72px; height: 30px; line-height: 30px; padding: 0}
+.im-msg-list{ position: relative;}
+.im-msg-list ul{ height: 90%;  overflow-y: scroll}
+.im-msg-list li{ padding: 12px 16px; border-bottom: 1px solid #f4f4f4}
+.watch-url{ overflow: hidden; padding-left: 24px; padding-bottom: 16px; border-bottom: 1px solid #c5c5c5}
+.watch-url-qrcode{ margin-bottom: 16px; width: 130px; height: 130px}
+.watch-url-qrcode img{ width: 130px; height: 130px}
+.watch-url .btn-default{ width: 66px; padding: 0; line-height: 28px; margin-right: 10px;}
+a.add-to-wechat{ color: #6c98d4;}
+.data-survey{ padding-left: 24px; overflow: hidden;}
+.data-survey p{ color: #555; line-height: 2}
+.user-avatar{ margin-right: 12px; width: 30px; height: 30px}
+.user-avatar img{ width: 30px; height: 30px;}
+.msg-body{ width: 260px; overflow: hidden;}
+.msg-operate{ overflow: hidden;}
+.user-info span{ background-color: #77b0f0; color: #fff; border-radius: 2px; display: inline-block; padding: 0 3px; line-height: 16px; margin-left: 12px;}
+.msg-operate span{ font-size: 12px; color: #555; display: inline-block; margin-bottom: 8px;}
+.btn-mediact{ background-color: #77b0f0; border: 1px solid #77b0f0;border-radius: 2px}
+.btn-media{ border: 1px solid #77b0f0; color: #77b0f0;border-radius: 2px}
+.msg-content{ line-height: 2}
+.msglist-operate{ position: absolute; width: 100%; height: 22.5px; border-top: 1px solid #f4f4f4; bottom: 0; left: 0; padding-top: 6.5px;}
+.msglist-operate a{ display: inline-block; color: #555; padding: 0 10px 0 }
+.msglist-operate a:last-of-type{ border-right: 1px solid #8b8b8b;}
+
+.tooldoownload{ text-align: center;}
+.tooldownload-qrcode{ display: inline-block;}
+.tooldownload-qrcode img{ width: 90px; height: 90px;}
+.qrcode-wrap{ width: 90px; height: 90px; padding: 5px; border: 1px solid #555;}
+.tooldownload-qrcode>p{ line-height: 2}
+.mobile-download{ display: inline-block; vertical-align: top; margin-left: 28px;}
+.mobile-download .btn-default{ width: 122px; padding: 0; line-height: 38px; margin-right: 0; margin-top: 10px;}
+#facelist{ position: absolute; /*height: 150px;*/ background-color: #000; top: -158px; /*width: 85%;*/ /*width: 245px;*/ border-radius: 6px; left: 83px; z-index: 12; /*overflow-y:auto;*/ background-color: #f7f7f7; border:1px solid #77b0f0; /*padding: .7rem*/ display: none;}
+.showemoji #facelist{ display: block;}
+.showemoji #facelist:after{ position: absolute; width: 25px; height: 25px; background-color: #000; z-index: 12; content: ''; display: block; bottom: -10px; left: 6px;background-color: #f7f7f7; /*border:1px solid #ff7878;*/ transform:rotate(45deg); box-shadow: 1px 1px 0 #77b0f0}
+
+#facelist ul{display: flex; display: -webkit-flex; flex-wrap: wrap;/* margin: .7rem;*/width: 284px; height: 198px;padding: .7rem;background-color: #f7f7f7; position: relative; z-index: 20; border-radius: 6px;}
+#facelist ul li{margin: 2px 3px 0 3px;}
+#account-modify{ position: absolute; top: -158px; left: 0; display: none; z-index: 99;}
+.layui-layer-content>div{ margin-bottom: 5px;}
+.avatar-modify img{ vertical-align: top;}
+.avatar-nickname input{ border: 1px solid #bfbfbf; border-radius: 2px; padding: 0 3px; line-height: 22px}
+.am{ display: inline-block; position: relative;}
+.avatar-preview{ width: 30px; height: 30px;}
+.am input[type=file]{ position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer;}
+
+#previewsend{ max-height: 300px; max-width: 100%;}
+.im-pic{ max-height: 80px; max-width: 50%; margin-top: 5px; }

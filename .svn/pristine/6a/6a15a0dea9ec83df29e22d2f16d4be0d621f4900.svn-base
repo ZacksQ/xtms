@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>象塔直播-频道管理</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="layui/css/layui.css">
+  <link rel="stylesheet" href="css/settings.css">  
+</head>
+<body>
+<div class="container">
+  <header class="top"></header>
+  <section class="body">
+    <div class="wrapper">
+      <header class="cn"></header>
+      <div class="content-warp">
+        <div class="leftnav fl" id="navBar">
+        </div>
+        <div class="content">
+          <div class="long_box fl autoheight" style="position: relative">
+            <div class="long_header">
+              <span>授权观看设置</span>
+            </div>
+            
+            <!-- <div class=""> -->
+
+                <div class="layui-tab">
+                  <div class="long_content">
+                    <h4>授权类型：</h4>
+                    <ul class="layui-tab-title authorizationtit">
+                      <li class="layui-this">无限制观看</li>
+                      <li>手机验证观看</li>
+                      <li>密码观看</li>
+                      <li>付费观看</li>
+                    </ul>
+                  </div>
+                    <div class="layui-tab-content long_content">
+                      <div class="layui-tab-item layui-show" id="free">
+                         <div class="tip-xll">用户自由观看直播</div>
+                      </div>
+                      <div class="layui-tab-item" id="sms">
+                        <form class="layui-form" action="">
+                          <div class="layui-form-item">
+                            <label class="layui-form-label">直播间提示文字：</label>
+                            <div class="layui-inline">
+                              <input type="text" name="title" required  lay-verify="required" placeholder="欢迎来到直播间" autocomplete="off" class="layui-input" maxlength="16">
+                            </div>
+                          </div>
+                           <div class="layui-form-item">
+                            <label class="layui-form-label">开启短信验证：</label>
+                            <div class="layui-input-block">
+                              <input type="checkbox" name="switch" lay-skin="switch">
+                            </div>
+                          </div>
+                          <div class="tip"><span class="red">*</span> 查看手机验证名单</div>
+                        </form>
+                      </div>
+                      <div class="layui-tab-item" id="password">
+                        <form class="layui-form" action="">
+                          <div class="layui-form-item">
+                              <label class="layui-form-label">直播间提示文字：</label>
+                              <div class="layui-inline">
+                                <input type="text" name="title" required  lay-verify="required" placeholder="欢迎来到直播间" autocomplete="off" class="layui-input" maxlength="16">
+                              </div>
+                            </div>
+                            <div class="layui-form-item">
+                              <label class="layui-form-label">密码设置：</label>
+                              <div class="layui-inline">
+                                <input type="text" name="password" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                              </div>
+                            </div>
+                            <div class="tip grey"><span class="red">*</span> 用户输入验证码/密码即可观看直播</div>
+                        </form>
+                      </div>
+                      <div class="layui-tab-item" id="payfor">
+                        <form class="layui-form" action="">
+                         <div class="layui-form-item">
+                            <label class="layui-form-label">直播间提示文字：</label>
+                            <div class="layui-inline">
+                              <input type="text" name="title" required  lay-verify="required" placeholder="欢迎来到直播间" autocomplete="off" class="layui-input" maxlength="16">
+                            </div>
+                          </div>
+                          <div class="layui-form-item">
+                            <label class="layui-form-label">观看价格：</label>
+                            <div class="layui-inline">
+                              <input type="text" name="price" required  lay-verify="required" placeholder="0.00" autocomplete="off" class="layui-input">
+                            </div>元
+                          </div>
+                          </form>
+                      </div>
+                    </div>                  
+                  </div>
+              <p style="clear:both"></p>
+            <!-- </div> -->
+            <div class="floor_bottom">
+              <button class="btn-merge fr" id="saveButton">保存</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="layui/layui.js"></script>
+<script src="js/main.js"></script>
+<script src="js/use.js"></script>
+<script>
+  getHardsize();
+  function getHardsize() {
+    $.ajax({
+      type:"post",
+      url:"http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
+      dataType:"json",
+      success:function (data) {
+        if(data.code==1013){
+          location.href="http://www.xiangtazhibo.com/newlive/webow/login.html";
+        }
+      }
+    });
+  }
+
+  getcn('channel');
+  var liveid = null;
+  
+  $(function () {
+    layui.use(['layer','element','form'], function(){
+      var layer = layui.layer;
+      $("#saveButton").click(function(){
+          var livemodel = $(".layui-tab-item:visible");
+          switch(livemodel.attr("id")){
+            case "payfor":
+              var price = $("#"+livemodel.attr("id")).find("input[name=price]").val();
+              var reg = new RegExp(/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/);
+              console.log(reg.test(price));
+            break;
+          }
+          // console.log(livemodel.attr("id"))
+      });
+    });
+    // $.ajax({
+    //   type: "POST",
+    //   dataType: 'JSON',
+    //   url: website + 'mivechannel/getLiveSet.do',
+    //   data: {
+    //     'liveid':liveid,
+    //     'types':10
+    //   },
+    //   success: function (result) {
+    //     if (result) {
+    //      if(result.success){
+    //        var channelname = result.data.logoAndName.channelname;
+    //        var logoimg = result.data.logoAndName.logoimg;
+    //        $('#channelName').val(channelname);
+    //        $('#imgbox').prop('src',logoimg);
+    //      }else{
+    //        layer.msg(result.msg)
+    //      }
+    //     }
+    //   },
+    //   error: function () {
+    //     console.log("error");
+    //   }
+    // })
+
+  });
+</script>
+</body>
+</html>

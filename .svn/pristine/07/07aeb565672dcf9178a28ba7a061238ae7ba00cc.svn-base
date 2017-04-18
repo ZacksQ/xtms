@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>象塔直播-视频合并</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="layui/css/layui.css">
+	<link rel="stylesheet" href="css/global.css">
+</head>
+<body class="mergemedia">
+	<div class="container">
+		<header class="top"></header>
+		<section class="body">
+			<div class="wrapper">
+				<div class="content-warp">
+					<div class="content">
+						<h1>视频合并</h1>
+						<header>
+							<div class="tip"><span class="red">*</span> 请按播放顺序上传您的视频进行合并</div>
+						</header>
+						<section class="content-body">
+							<ul class="mergemedia-list">
+								<li id="videoli1">
+									<div id="tempvideo1" onclick="openVediolist(this,1)" class="mergemedia-cover">
+										<div class="add"></div>
+										<p >添加视频</p>
+									</div>									
+									<div id="temptitle1" class="media-num">(01)</div>
+									<div id="tempremove1" style="display:none;">
+										<button class="btn-default"   onclick="removeVideo(this)">删除视频</button>
+									</div>
+									<div   style="display:none;" class="media-num"></div>
+									<div  class="videowidth"  style="display:none;" class="media-num"></div>
+									<div  class="videoheight" style="display:none;" class="media-num"></div>
+								</li>
+								<li id="videoli2">
+									<div id="tempvideo2" onclick="openVediolist(this,1)" class="mergemedia-cover">
+										<div class="add"></div>
+										<p>添加视频</p>
+									</div>									
+									<div id="temptitle2" class="media-num">(02)</div>
+									<div id="tempremove2" style="display:none;">
+										<button class="btn-default"  onclick="removeVideo(this)">删除视频</button>
+									</div>
+									<div   style="display:none;" class="media-num"></div>
+									<div  class="videowidth"  style="display:none;" class="media-num"></div>
+									<div  class="videoheight" style="display:none;" class="media-num"></div>
+								</li>
+								<li id="videoli3">
+									<div id="tempvideo3" onclick="openVediolist(this,1)" class="mergemedia-cover">
+										<div class="add"></div>
+										<p>添加视频</p>
+									</div>									
+									<div id="temptitle3" class="media-num">(03)</div>
+									<div id="tempremove3" style="display:none;">
+										<button class="btn-default"  onclick="removeVideo(this)">删除视频</button>
+									</div>
+									<div   style="display:none;" class="media-num"></div>
+									<div  class="videowidth"  style="display:none;" class="media-num"></div>
+									<div  class="videoheight" style="display:none;" class="media-num"></div>
+								</li>
+								<li id="videoli4">
+									<div id="tempvideo4" onclick="openVediolist(this,1)" class="mergemedia-cover">
+										<div class="add"></div>
+										<p>添加视频</p>
+									</div>									
+									<div id="temptitle4"  class="media-num">(04)</div>
+									<div id="tempremove4" style="display:none;">
+										<button class="btn-default"  onclick="removeVideo(this)">删除视频</button>
+									</div>
+									<div   style="display:none;" class="media-num"></div>
+									<div  class="videowidth"  style="display:none;" class="media-num"></div>
+									<div  class="videoheight" style="display:none;" class="media-num"></div>
+								</li>
+								<li id="videoli5">
+									<div id="tempvideo5" onclick="openVediolist(this,1)" class="mergemedia-cover">
+										<div class="add"></div>
+										<p>添加视频</p>
+									</div>									
+									<div id="temptitle5" class="media-num">(05)</div>
+									<div id="tempremove5" style="display:none;">
+										<button class="btn-default"  onclick="removeVideo(this)">删除视频</button>
+									</div>
+									<div   style="display:none;" class="media-num"></div>
+									<div  class="videowidth"  style="display:none;" class="media-num"></div>
+									<div  class="videoheight" style="display:none;" class="media-num"></div>
+								</li>
+							</ul>
+							<div class="mergemedia-info">
+								<p>视频长度：</p>
+								<p id="newduration">00:00:00</p>
+								<p>视频名称：</p>
+								<div><input type="text" id="mergetitle" onkeyup="editInputsize(this)" class="txt-merge" placeholder="视频名称"><div class="typewordnum"><span id="inputsize" class="red">0</span>/8</div></div>
+							</div>
+							<button class="mergemedia btn-merge" onclick="mergeVideo()">合并视频</button>
+						</section>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+
+	<div class="spinner" id="videoLoad">
+		<div class="double-bounce1"></div>
+		<div class="double-bounce2"></div>
+	</div>
+
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/use.js"></script>
+	<script src="layui/layui.js"></script>
+	<script>
+		"use strict";
+
+getHardsize();
+function getHardsize() {
+	$.ajax({
+		type: "post",
+		url: "http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
+		dataType: "json",
+		success: function success(data) {
+			if (data.code == 1013) {
+				location.href = "http://www.xiangtazhibo.com/newlive/webow/login.html";
+			}
+		}
+	});
+}
+var videoliid = null;
+function openVediolist(obj, ordertype, sorttype) {
+	if (obj != 0) videoliid = $(obj).parent().attr("id");
+	var selected0 = "";var selected1 = "";var selected2 = "";
+	switch (sorttype) {
+		case "0":
+			selected0 = "selected =\"selected\" ";break;
+		case "1":
+			selected1 = "selected =\"selected\" ";break;
+		case "2":
+			selected2 = "selected =\"selected\" ";break;
+	}
+	/*	var temptitleid = $(obj).next().attr("id");
+ 	var tempremoveid = $(obj).next().next().attr("id");*/
+	$.ajax({
+		type: "post",
+		url: website + "mlive/getDvrList.do",
+		data: { type: 2, ordertype: ordertype, sorttype: sorttype },
+		dataType: "json",
+		success: function success(data) {
+			if (data['code'] == 1013) {
+				layui.use(['layer', 'form'], function () {
+					var layer = layui.layer;
+					layer.open({
+						type: 0,
+						title: '提示',
+						btn: ['关闭'],
+						content: '登录超时，请重新登录',
+						closeBtn: 0,
+						yes: function yes(index, layero) {
+							layer.close(index);
+						}
+					});
+				});
+			} else {
+				var $li = "";
+				$.each(data.data, function (i, item) {
+					$li += "<li><div class=\"media-selectstate\" onclick=\"selectedmedia(this)\"></div>\n\t\t\t\t\t\t\t<div class=\"media-cover\"><img src=" + item.thumbnail + " class=\"media-cover\"/> </div>\n\t\t\t\t\t\t\t<div class=\"media-des\">\n\t\t\t\t\t\t\t<h3 id=\"" + item.savedid + "\">" + item.title + "</h3>\n\t\t\t\t\t\t\t<div>\u65F6\u95F4\uFF1A" + formatDatestr(item.createtime) + " \u5206\u8FA8\u7387\uFF1A" + item.width + "*" + item.height + "</div>\n\t\t\t\t\t\t\t<button class=\"btn-media\">\u539F\u7247</button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<input style=\"display:none;\" value=\"" + item.duration + "\" />\n\t\t\t\t\t\t\t<input style=\"display:none;\" value=\"" + item.size + "\" />\n\t\t\t\t\t\t\t<input style=\"display:none;\" value=\"" + item.width + "\" />\n\t\t\t\t\t\t\t<input style=\"display:none;\" value=\"" + item.height + "\" />\n\t\t\t\t\t\t\t</li>";
+				});
+
+				layui.use(['layer', 'form'], function () {
+					var layer = layui.layer;
+					layer.open({
+						type: 0,
+						area: ['660px', '600px'],
+						title: "\u6DFB\u52A0\u89C6\u9891<div class=\"fr orderby\">\u6392\u5E8F\uFF1A<select onchange=\"selectedchange(this)\"><option value=\"0\" " + selected0 + " >\u9ED8\u8BA4\u6392\u5E8F</option><option value=\"1\" " + selected1 + " >\u76F4\u64AD\u65F6\u95F4</option>\n\t\t\t\t\t\t\t\t\t\t  \t<option value=\"2\" " + selected2 + "  >\u89C6\u9891\u5927\u5C0F</option></select></div>",
+						btn: ['确定', '取消'],
+						// content: '<div class="dialogfont center"><div class="red">合并成功！</div>请直接到媒体库查看</div>'
+						content: "<div class=\"merge-addmedia\"><ul class=\"media-list\">" + $li + "</ul></div>",
+						closeBtn: 0,
+						move: false,
+						yes: function yes(index, layero) {
+							var title = $(".media-list .selected").children().eq(2).children().html();
+							var img = $(".media-list .selected").children().eq(1).children().attr("src");
+							var mergeid = $(".media-list .selected").children().eq(2).children().attr("id");
+							var duration = $(".media-list .selected").children().eq(3).val();
+							var videosize = $(".media-list .selected").children().eq(4).val();
+							var width = $(".media-list .selected").children().eq(5).val();
+							var height = $(".media-list .selected").children().eq(6).val();
+							confirmmedia(videoliid, img, title, duration, mergeid, videosize, width, height);
+							layer.close(index);
+						}
+					});
+				});
+			}
+		}
+	});
+}
+
+function selectedchange(obj) {
+	console.log($(obj).val());
+	openVediolist(0, 1, $(obj).val());
+}
+
+function formatDatestr(timestr) {
+	var timestamp = new Date(timestr * 1000); //直接用 new Date(时间戳) 格式转化获得当前时间
+	return timestamp.toLocaleDateString().replace(/\//g, "-") + " " + timestamp.toTimeString().substr(0, 8);
+}
+
+function confirmmedia(videoliid, coverimg, title, duration, mergeid, videosize, width, height) {
+	var flag = true;
+	$.each($(".mergemedia-list").children(), function (i, item) {
+		if ($(item).children().eq(1).html() == title) {
+			layui.use(['layer', 'form'], function () {
+				var layer = layui.layer;
+				layer.open({
+					type: 0,
+					title: '提示',
+					btn: ['关闭'],
+					content: '视频已存在',
+					closeBtn: 0,
+					yes: function yes(index, layero) {
+						layer.close(index);
+					}
+				});
+			});
+			flag = false;
+		}
+	});
+	if (flag) {
+		var $img = "<img src='" + coverimg + "' class='mergemedia-cover' />";
+		$("#" + videoliid + "").children().eq(0).html($img);
+		$("#" + videoliid + "").children().eq(1).html(title);
+		$("#" + videoliid + "").children().eq(2).css("display", "block");
+		$("#" + videoliid + "").children().eq(3).html(videosize);
+		$("#" + videoliid + "").children().eq(4).html(width);
+		$("#" + videoliid + "").children().eq(5).html(height);
+		$("#" + videoliid + "").attr("id", mergeid);
+		var str = "1990/10/10 " + $("#newduration").html();
+		var date = new Date(str);
+		var newdate = new Date(parseInt(duration) * 1000 + date.getTime());
+		$("#newduration").html((newdate.getHours() < 10 ? "0" + newdate.getHours() : newdate.getHours()) + ":" + (newdate.getMinutes() < 10 ? "0" + newdate.getMinutes() : newdate.getMinutes()) + ":" + (newdate.getSeconds() < 10 ? "0" + newdate.getSeconds() : newdate.getSeconds()));
+	}
+}
+
+function removeVideo(obj) {
+	$(obj).parent().prev().prev().html("<div class=\"add\"></div><p >添加视频</p>");
+	var i = $(obj).parent().parent().parent().children().index($(obj).parent().parent()) + 1;
+	$(obj).parent().prev().html("(0" + i + ")");
+	$(obj).hide();
+}
+
+function mergeVideo() {
+	if ($("#mergetitle").val().length <= 0) {
+		layui.use(['layer', 'form'], function () {
+			var layer = layui.layer;
+			layer.open({
+				type: 0,
+				title: '提示',
+				btn: ['关闭'],
+				content: '合并标题不能为空',
+				closeBtn: 0,
+				yes: function yes(index, layero) {
+					layer.close(index);
+				}
+			});
+		});
+		return;
+	}
+
+	var mergevideoids = [];
+	var videosizes = [];
+	var width = "";
+	var height = "";
+	$.each($(".mergemedia-list").children(), function (i, item) {
+		if ($(item).attr("id").indexOf("video") == -1) {
+			mergevideoids[i] = $(item).attr("id");
+			videosizes[i] = $(item).children().eq(3).html();
+			width = $(item).children().eq(4).html();
+			height = $(item).children().eq(5).html();
+		}
+	});
+	$.ajax({
+		type: "post",
+		url: "../mlive/mergeDvr.do",
+		traditional: true,
+		data: { mergeids: mergevideoids, videosizes: videosizes, mergetitle: $("#mergetitle").val(), width: width, height: height },
+		dataType: "json",
+		beforeSend:function (xhr) {
+			$("#videoLoad").show();
+			$("#submitB").attr("disabled","disabled");
+		},
+		complete:function(xhr){
+			$("#videoLoad").hide();
+			$("#submitB").removeAttr("disabled");
+		},
+		success: function success(data) {
+			layui.use(['layer', 'form'], function () {
+				var layer = layui.layer;
+				layer.open({
+					type: 0,
+					title: '提示',
+					btn: ['关闭'],
+					content: data.msg,
+					closeBtn: 0,
+					yes: function yes(index, layero) {
+						layer.close(index);
+						window.location.reload();
+					}
+				});
+			});
+		}
+	});
+}
+function editInputsize(obj) {
+	if ($(obj).val().length <= 8) $("#inputsize").html($(obj).val().length);else {
+		$(obj).val($(obj).val().substr(0, 8));
+	}
+}
+
+	</script>
+	<script src="js/main.js"></script>
+</body>
+</html>
+	<script>

@@ -1,0 +1,409 @@
+/*2017年2月9日16:03:22 赵康 基础设置css*/
+/*频道管理*/
+.content_l {
+  width: 386px;
+  height: 660px;
+  margin-top: 24px;
+}
+
+.content_l img {
+  width: 82%;
+  margin: 0 auto;
+  display: block;
+}
+
+.content_r {
+  width: 560px;
+  /*height: 660px;*/
+  margin-top: 24px;
+  box-shadow: 0px 0px 50px #ddd;
+  position: relative;
+  border-radius: 0 0 10px 10px;
+}
+
+.content {
+  padding: 0 !important;
+}
+
+.window_box {
+  width: 100%;
+  /*background-color: #f3f3f3;*/
+}
+
+.window_title, .long_header {
+  background-color: #e1edfd;
+  /*padding:16px 0 24px 28px;*/
+  height: 60px;
+  padding-left: 28px;
+  border-radius: 10px 10px 0 0;
+}
+
+.long_box {
+  width: 920px;
+  height: 600px;
+  box-shadow: 0px 0px 50px #ddd;
+  border-radius: 0 0 10px 10px;
+  margin: 24px 0 0 26px;
+}
+
+.long_header span {
+  font-size: 18px;
+  color: #5383c3;
+  margin-top: 16px;
+  display: inline-block;
+}
+
+.window_title span {
+  font-size: 18px;
+  color: #5383c3;
+  margin-top: 16px;
+  display: inline-block;
+}
+
+.window_content {
+  background-color: #fff;
+}
+
+.window_content .floor_top {
+  border-bottom: 1px solid #d5d7da;
+  padding-top: 35px;
+  padding-left: 15px;
+  height: 60px;
+}
+
+.window_content .floor_top span {
+  font-size: 18px;
+}
+
+/*内容层*/
+.floor_center {
+  background: #fff;
+  padding-left: 30px;
+  margin-top: 16px;
+}
+
+.floor_center .nav_switch button {
+  padding: 8px 30px;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+}
+
+.floor_center .nav_switch button.nav_switch_active {
+  background-color: #5383c3;
+  color: #fff;
+  transition: all .5s;
+  -webkit-transition: all .2s;
+}
+
+.preview_box {
+  width: 340px;
+  height: 187px;
+  margin-top: 10px;
+}
+
+.floor_center .select_box {
+  margin-top: 12px;
+}
+
+.floor_center .select_box .select_btn {
+  background-color: #5383c3;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 6px;
+}
+
+.warn_box {
+  margin-top: 6px;
+}
+
+.red_warn {
+  color: red;
+  display: inline-block;
+  margin-right: 3px;
+}
+
+.bg_video video {
+  width: 340px;
+  height: 187px;
+  margin-top: 40px;
+}
+
+/*按钮层*/
+.floor_bottom {
+  height: 90px;
+  border-top: 1px solid #d5d7da;
+  background-color: #fff;
+  /*position: absolute;*/
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.floor_bottom button {
+  margin: 20px;
+}
+
+/*互动打赏*/
+.use_process {
+  width: 95%;
+  display: block;
+  margin: 0 auto;
+}
+
+/*直播回放*/
+.long_switch {
+  border-bottom: 1px solid #d5d7da;
+  margin-top: 7px;
+  padding-left: 15px;
+  position: relative;
+}
+
+.long_content {
+  padding-left: 24px;
+}
+
+.long_content .title {
+  font-size: 16px;
+  color: #5383c3;
+  margin-top: 24px;
+}
+
+.review_preview_box {
+  position: relative;
+}
+
+.review_preview_box video {
+  width: 530px;
+  height: 300px;
+  margin-left: 100px;
+  margin-top: 20px;
+}
+
+/*频道管理*/
+.long_content_box {
+  margin-top: 24px;
+}
+
+.long_content_box .header_img {
+  width: 220px;
+  height: 220px;
+}
+
+.change_channel_btn_group {
+  margin-top: 150px;
+  margin-left: 50px;
+}
+
+.change_channel_btn_group .info p {
+  margin-top: 5px;
+}
+
+/*自定义菜单*/
+.menu_top > .mh {
+  width: 430px;
+  padding: 0 30px;
+  /*height: 30px;*/
+  /*line-height: 40px;*/
+  border: 1px solid #e3e3e3;
+  margin-top: 10px;
+}
+.menu_top > .mh:after{ content: ''; display: block; clear: both; width: 0;}
+.menu_top > .mh span,.menu_top > .mh input {
+  display: inline-block;
+  line-height: 40px;
+  font-size: 14px;
+  color: #6497db;
+}
+.menu_top > .mh input{ border: 0;}
+.menu_top > .mh.show input{ border-bottom: 1px solid #e3e3e3}
+.menu_top .btn-default{padding: 4px 12px;margin-top: 9px; }
+.menu_top > .mh span:nth-child(2) {
+  cursor: pointer;
+}
+
+/*富文本框*/
+.menu_editor_box {
+  width: 490px;
+  height: 350px;
+  /*border: 1px solid #e3e3e3;*/
+  margin-top: 16px;
+}
+
+#classification, #menuName {
+  background-color: #f9f9f9;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+#menuName {
+  background-color: #f9f9f9;
+  width: 60px;
+  padding: 0 40px 0 10px;
+}
+
+.save_btn {
+  background-color: #5383c3;
+  color: #ffffff;
+  border-radius: 15px;
+  width: 60px;
+  text-align: center;
+  padding: 5px 10px;
+  margin: 0 auto;
+  margin-top: 10px;
+  cursor: pointer;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}
+#listBox{
+  /*border: 1px solid #e3e3e3;*/
+  /*margin-top:20px;*/
+  /*height:283px;*/
+  /*padding:0 24px;*/
+  padding-bottom: 10px
+}
+/*上传二维码*/
+#codeBox {
+  /*margin-top:20px;*/
+  /*border: 1px solid #e3e3e3;*/
+  /*height:223px;*/
+  /*padding:60px 24px 0;*/
+  padding-bottom: 10px
+}
+#picTextBox{
+  padding-bottom: 10px
+}
+.uploadBox {
+  width: 133px;
+  height: 133px;
+  background-color: #f8f8f8;
+  position: relative;
+}
+
+.uploadBox .upload_btn {
+  display: inline-block;
+  width: 83px;
+  height: 83px;
+  margin-top: 25px;
+  margin-left: 25px;
+  position: relative;
+}
+#codeBox div p span:not('.red_warn') {
+  color: #ababab;
+}
+
+.upload_active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 133px;
+  height: 133px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload_active:hover {
+  opacity: 100;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+}
+
+.upload_active p {
+  line-height: 133px;
+  text-align: center;
+}
+/*自定义广告栏*/
+.example{
+  border: 1px dashed #d7d7d7;
+  border-radius: 5px;
+  width:335px;
+  padding:16px;
+}
+.example img{
+  width:335px;
+  height:31px;
+  margin-top:16px;
+}
+
+.upload_box{
+  width:468px;
+  height:58px;
+  border: 1px dashed #d7d7d7;
+  border-radius: 5px;
+  margin-top: 24px;
+  text-align: center;
+}
+.upload_box .upload_btn_box{
+  margin-top:15px;
+  cursor: pointer;
+  position: relative;
+}
+.upload_btn_box input[type="file"]{
+  position: absolute;
+  top:-15px;
+  left:0;
+  width:468px;
+  height:58px;
+  cursor: pointer;
+  opacity: 0;
+  z-index:999;
+}
+.upload_btn_box .upload_pic{
+  width:335px;
+  height:31px;
+}
+.url_box{
+  margin-top:24px;
+}
+.url_box #url{
+ width: 275px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  padding:5px;
+  border-radius: 3px;
+}
+.floor_center .con{ float: none; width: 430px; box-shadow: none ;padding: 20px 30px; border: 1px solid #e3e3e3; box-sizing:initial; -webkit-box-sizing:initial; -moz-box-sizing:initial; margin: 10px 0; height: auto;}
+.con .meida-name{ color: #e3efff;}
+.menucontent{ display: none}
+
+.authorizationtit{ display: inline-block;}
+.layui-tab h4{ display: inline-block; font-size: 16px; font-weight: bold; vertical-align: bottom;line-height: 40px}
+.layui-tab-content.long_content{padding-left: 24px; padding-top: 24px; padding-bottom: 36px;}
+.layui-tab-title{ background-color: #f1f1f1; border-bottom: 0; border-radius: 5px}
+.layui-tab-title .layui-this{ background-color: #97c3fd; color: #fff; border-radius: 5px}
+.layui-tab-title .layui-this:after{content: initial;}
+.layui-tab-title li{ width: 130px;}
+.tip-xll{ font-size: 30px; text-align: center; color: #acacac; line-height: 2}
+.autoheight{ height: auto;}
+.skinlist{ padding: 0 76px;}
+.skinlist li{ float: left; width: 29%; margin-top: 0 ; margin-right:2%;margin-left:2%; margin-bottom:16px;/* overflow: hidden; */height: 214px; position: relative; cursor:pointer;}
+.skinlist li img{ width: 100%; }
+
+.skinlist li .skin-info p{ text-align: center; color: #555; line-height: 32px; }
+
+.skinlist li:hover .skin-wrapper{ overflow:initial;}
+.skinlist li:hover .skin-info{ z-index: 11;}
+
+.skinlist li.active:before{content: ''; display: block; width:34px; height: 34px; background: url(../images/skinchoosed.png) no-repeat center; background-size: 100%; z-index: 10; position: absolute; right: -15px; top:-15px;}
+.skin-wrapper{ width: 100%; height: 100%; overflow: hidden; position: relative;}
+.skinlist li.active .skin-wrapper{ overflow:initial;}
+.skinlist li.active .skin-info{ z-index: 9;}
+.skinlist li.active p{ display: none}
+.skinlist li:hover p{ display: block;}
+.skinlist li.active .skin-info{box-shadow: 0 0 1px rgba(0,0,0,.4);}
+.skinlist li:hover .skin-info{box-shadow: 0 0 5px rgba(0,0,0,.2);}
+.skinlist li .skin-info{
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    background-color: #fff;
+    /* width: calc(100% + 14px); */
+    width: 100%;
+    border: 7px solid #fff;}

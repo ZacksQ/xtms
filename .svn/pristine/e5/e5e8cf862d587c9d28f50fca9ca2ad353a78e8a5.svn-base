@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>象塔直播-媒体库</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="layui/css/layui.css">
+	<link rel="stylesheet" href="css/global.css">
+</head>
+<body class="media">
+	<div class="container">
+		<header class="top"></header>
+		<section class="body">
+			<div class="wrapper">
+				<div class="content-warp">
+					<div class="leftnav fl">
+						<h1>账户信息</h1>
+						<div class="media-info">现有容量：<span id="hardsize" >0G</span></div>
+						<div  class="media-info">已用容量：<span id="usehardsize" class="red">0G</span></div>
+						<div class="media-info">视频数量：<span id="videonum" >0个</span></div>
+						<div class="media-info memorybar">
+							<div class="bar-wrap">
+								<div id="hardpercent" class="bar-line" ></div>
+							</div>
+							<p><span id="usehardsize2">0G</span>/100G</p>
+						</div>
+					</div>
+					<div class="content">
+						<h1><a href="javascript:getVideo(1);" id="fvideo" class="btn-lg active">视频库</a><a href="javascript:getVideo(2);" id="tvideo" class="btn-lg ">直播暂存</a><p class="fr tip"><img src="images/warningicon.png" alt="">直播暂存中的视频为您保留7天，到期后自动删除</p></h1>
+						<header>
+							<button class="btn-default" id="selectall" >全选</button>
+							<button class="btn-default" id="shanchu">删除</button>
+							<a href="mergemedia.html" target="_blank" id="hebing" class="btn-default">合并</a>
+							<button class="btn-default" id="baocun" onclick="saveVideo()" style="display:none">永久保存</button>
+							<div id="search" class="search fr">
+								<input id="searchtitle" type="text" class="txt-search" placeholder="请输入视频关键字">
+								<button id="btnSearch" class="btn-search"><img src="images/searchbtn.png" alt=""></button>
+							</div>
+						</header>
+						<section class="content-body">
+							<ul class="media-list">
+
+							</ul>
+						</section>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<div id="a1"></div>
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/use.js"></script>
+	<script src="js/main.js"></script>
+	<script src="layui/layui.js"></script>
+    <script>
+
+		getVideo(1);
+		getHardsize();
+		function getHardsize() {
+			$.ajax({
+				type:"post",
+				url:"../mAccount/getHardSize.do",
+				dataType:"json",
+				success:function (data) {
+					if(data.code==1013){
+						location.href="http://www.xiangtazhibo.com/newlive/webow/login.html";
+					} else{
+							 $("#usehardsize").html(data.data.useHardSize+"G");
+							 $("#usehardsize2").html(data.data.useHardSize+"G");
+							 $("#videonum").html(data.data.videonum+"个");
+							 $("#hardsize").html(data.data.hardsize+"G");
+						var width = data.data.hardpercent+"%";
+							 $("#hardpercent").css("width",width);
+					}
+				}
+				});
+		}
+	function videoclick(obj){
+	    var url = $(obj).attr("id");
+		layui.use(['layer', 'form'], function(){
+			var layer = layui.layer;
+			 layer.open({
+			 type: 0,
+			 title : '视频播放',
+             area: ['680px', '500px'],
+			 btn: ['关闭'],
+			 content: "	 <div style='width: 640px;height: 360px;'>"
+            +"<script type='text/javascript' src='player/sewise.player.min.js?server=vod&type=m3u8&autostart=true&starttime=0&lang=zh_CN&logo=http://onvod.sewise.com/libs/swfplayer/skin/images/logo.png&title=M3U8 Cross Platform&buffer=5&claritybutton=disable&skin=vodFlowPlayer&videourl="+url+"'><\/script>"
+            +"</div>",
+			 closeBtn: 0,
+			 yes:function(index, layero){
+			 layer.close(index);
+			 }
+			 });
+		});
+	}
+
+
+		function getLivevideo() {
+			$.ajax({
+				type:"post",
+				url:"../mlive/get7DayDvrList.do",
+				dataType:"json",
+				success:function (data) {
+					var $medialist = $(".media-list");
+					var $li ="";
+					if(data.code==1013){
+						layui.use(['layer', 'form'], function(){
+							var layer = layui.layer;
+							layer.open({
+								type: 0,
+								title : '提示',
+								btn: ['关闭'],
+								content: '登录超时，请重新登录',
+								closeBtn: 0,
+								yes:function(index, layero){
+									layer.close(index);
+								}
+							});
+						});
+					} else{
+						$.each(data.data, function (i, item) {
+							var statu = item.filingStatus == 1 ? '已同步' : '未同步';
+							if (!item.filingStatus == 1) {
+								$li += "<li ><div class=\"media-selectstate\" id='" + item.url + "' onclick='chooseClick(this)'><input style='display: none;' value='" + item.stream + "'></div>" +
+										"<div class=\"media-cover\"><img class='media-cover' id='"+item.url+"' style='cursor: pointer' onclick='videoclick(this)' src='" + item.thumbnail + "'></div>" +
+										"<div class=\"media-des\"><h3>" + item.filemtime + "</h3>" +
+										"<div>时间：" + formatDatestr(item.uptime) + " </div><div>分辨率：" + item.width + "*" + item.height + "&nbsp;<button class=\"btn-media\">原片</button>&nbsp;<button class=\"btn-media\">" + statu + "</button></div></div>" +
+										"</li> ";
+							}
+						});
+						$medialist.html($li);
+					}
+				}
+			});
+		}
+
+
+	function getSavedvideo() {
+		$.ajax({
+			type:"post",
+			url:"../mlive/getDvrList.do",
+			data:{type:0},
+			dataType:"json",
+			success:function (data) {
+				if (data.code == 1013) {
+					layui.use(['layer', 'form'], function () {
+						var layer = layui.layer;
+						layer.open({
+							type: 0,
+							title: '提示',
+							btn: ['关闭'],
+							content: '登录超时，请重新登录',
+							closeBtn: 0,
+							yes: function (index, layero) {
+								layer.close(index);
+							}
+						});
+					});
+				} else {
+					var $medialist = $(".media-list");
+					var $li = "";
+					$.each(data.data, function (i, item) {
+						var statu = item.published == 1 ? '已发布' : '未发布';
+						var typename = item.type == 3 ? '合并' : '原片';
+						$li += "<li ><div class=\"media-selectstate\" id='" + item.url + "' onclick='chooseClick(this)'><input style='display: none;' value='" + item.stream + "'></div>" +
+								"<div class=\"media-cover\"><img class='media-cover' id='"+item.url+"' style='cursor: pointer' onclick='videoclick(this)' src='" + item.thumbnail + "'></div>" +
+								"<div  class=\"media-des\"><h3 id=\""+item.title+"\"  ondblclick='openedit(this,\""+item.id+"\")'>" + item.title + "</h3>" +
+								"<div>时间：" + formatDatestr(item.createtime) + " </div><div>分辨率：" + item.width + "*" + item.height + "&nbsp;<button class=\"btn-media\">"+typename+"</button>&nbsp;<button class=\"btn-media\">" + statu + "</button></div></div>" +
+								"<div style='display: none;'>"+item.type+"</div></li> ";
+					});
+					$medialist.html($li);
+				}
+			}
+		});
+	}
+
+		function formatDatestr(timestr) {
+			var timestamp = new Date(timestr*1000);//直接用 new Date(时间戳) 格式转化获得当前时间
+			return timestamp.toLocaleDateString().replace(/\//g, "-") + " " + timestamp.toTimeString().substr(0, 8);
+		}
+
+		function chooseClick(obj) {
+			$(obj).parent().toggleClass("selected");
+		};
+		
+		function saveVideo() {
+			var urls=[];
+			var streams = [];
+			var $selected = $(".selected");
+			$selected.each(function (i) {
+				urls[i] = $(".selected").eq(i).children().eq(0).attr("id");
+				streams[i] = $(".selected").eq(i).children().eq(0).children().val();
+			});
+
+			 $.ajax({
+			 	type:"post",
+				url:"../mlive/syncLiveDvr.do",
+				traditional: true,
+				data:{urls:urls,strams:streams},
+				success:function (data) {
+					layui.use(['layer', 'form'], function(){
+						var layer = layui.layer;
+						layer.open({
+							type: 0,
+							title : '提示',
+							btn: ['关闭'],
+							content: data.data.FlagString,
+							closeBtn: 0,
+							yes:function(index, layero){
+								getLivevideo();
+								layer.close(index);
+							}
+						});
+					});
+				}
+			});
+		}
+
+		$("#fvideo").click(function(){
+			getVideo(1);
+			 $("#fvideo").addClass("active");
+			$("#hebing").show();
+			$("#baocun").hide();
+			$("#shanchu").show();
+			$("#search").show();
+			 $("#tvideo").removeClass("active");
+		});
+		$("#tvideo").click(function(){
+			getVideo(2);
+			$("#hebing").hide();
+			$("#baocun").show();
+			$("#shanchu").hide();
+			$("#search").hide();
+			 $("#tvideo").addClass("active");
+			 $("#fvideo").removeClass("active");
+		});
+
+		function getVideo(type) {
+			if(type==1)
+				getSavedvideo();
+			if(type==2)
+				getLivevideo();
+		}
+		$("#selectall").click(function(){
+
+			if($("#selectall").hasClass("selectall")){
+				$("#selectall").removeClass("selectall")
+				$(".media-list li").each(function () {
+					$(this).removeClass("selected");
+				})
+			}else{
+				$("#selectall").addClass("selectall")
+				$(".media-list li").each(function () {
+					$(this).addClass("selected");
+				})
+			}
+
+		});
+
+
+		$("#shanchu").click(function() {
+			var urls = [];
+			var types = [];
+			var streams = [];
+			var $selected = $(".selected");
+			$selected.each(function (i) {
+				urls[i] = $(".selected").eq(i).children().eq(0).attr("id");
+				types[i] = $(".selected").eq(i).children().eq(3).html();
+			});
+
+			console.log(urls);
+			$.ajax({
+				type: "post",
+				url: "../mlive/delVideo.do",
+				traditional: true,
+				data: {urls: urls,types:types},
+				success: function (data) {
+					layui.use(['layer', 'form'], function () {
+						var layer = layui.layer;
+						layer.open({
+							type: 0,
+							title: '提示',
+							btn: ['关闭'],
+							content: data.msg,
+							closeBtn: 0,
+							yes: function (index, layero) {
+								getVideo(1);
+								layer.close(index);
+							}
+						});
+					});
+				}
+			});
+		});
+
+
+		function openedit(obj,id) {
+			var title = $(obj).attr("id");
+			var simpletitle = $(obj).html();
+			if(title.indexOf("input")>0)
+				return;
+			console.log(title);
+			var $input = "<input class='media-des' onblur='edittitle(this,\""+title+"\",\""+id+"\",\""+simpletitle+"\")' type='text' value='"+title+"'>";
+			$(obj).html($input);
+			$(obj).children().eq(0).focus();
+		}
+
+		function edittitle(obj,title,id,simpletitle) {
+			var newtitle = $(obj).val();
+			if(newtitle==title)
+				$(obj).parent().html(simpletitle);
+			else{
+				$.ajax({
+					type:"post",
+					url:"../mlive/edittitle.do",
+					data:{id:id,title:newtitle},
+					success:function (data) {
+						layui.use(['layer', 'form'], function () {
+							var layer = layui.layer;
+							layer.open({
+								type: 0,
+								title: '提示',
+								btn: ['关闭'],
+								content: data.msg,
+								closeBtn: 0,
+								yes: function (index, layero) {
+									getVideo(1);
+									layer.close(index);
+								}
+							});
+						});
+					}
+				});
+			}
+
+		}
+	$("#btnSearch").click(function(){
+		$.ajax({
+			type:"post",
+			url:"../mlive/searchBytitle.do",
+			data:{title:$("#searchtitle").val()},
+			dataType:"json",
+			success:function (data) {
+				if (data.code == 1013) {
+					layui.use(['layer', 'form'], function () {
+						var layer = layui.layer;
+						layer.open({
+							type: 0,
+							title: '提示',
+							btn: ['关闭'],
+							content: '登录超时，请重新登录',
+							closeBtn: 0,
+							yes: function (index, layero) {
+								layer.close(index);
+							}
+						});
+					});
+				} else {
+					var $medialist = $(".media-list");
+					var $li = "";
+					$.each(data.data, function (i, item) {
+						var title = item.title;
+						var typename = item.type == 3 ? '合并' : '原片';
+						if(title.length>15)
+							title = title.substr(0,15)+"....";
+						$li += "<li ><div class=\"media-selectstate\" id='" + item.url + "' onclick='chooseClick(this)'><input style='display: none;' value='" + item.stream + "'></div>" +
+								"<div class=\"media-cover\"><img class='media-cover' id='"+item.url+"' style='cursor: pointer' onclick='videoclick(this)' src='" + item.thumbnail + "'></div>" +
+								"<div  class=\"media-des\"><h3 id=\""+item.title+"\" ondblclick='openedit(this,\""+item.id+"\")'>" + title + "</h3>" +
+								"<div>时间：" + formatDatestr(item.createtime) + " </div><div>分辨率：" + item.width + "*" + item.height + "&nbsp;<button class=\"btn-media\">"+typename+"</button></div></div>" +
+								"</li> ";
+					});
+					$medialist.html($li);
+				}
+			}
+		});
+	});
+
+	</script>
+
+
+</body>
+</html>

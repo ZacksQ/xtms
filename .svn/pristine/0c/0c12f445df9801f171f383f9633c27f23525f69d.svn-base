@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>象塔直播-媒体库</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="layui/css/layui.css">
+	<link rel="stylesheet" href="css/global.css">
+</head>
+<body class="media">
+	<div class="container">
+		<header class="top"></header>
+		<section class="body">
+			<div class="wrapper">
+				<div class="content-warp">
+					<div class="leftnav fl">
+						<h1>账户信息</h1>
+						<div class="media-info">现有容量：<span id="hardsize" >0G</span></div>
+						<div  class="media-info">已用容量：<span id="usehardsize" class="red">0G</span></div>
+						<div class="media-info">视频数量：<span id="videonum" >0个</span></div>
+						<div class="media-info memorybar">
+							<div class="bar-wrap">
+								<div id="hardpercent" class="bar-line" ></div>
+							</div>
+							<p><span id="usehardsize2">0G</span>/100G</p>
+						</div>
+					</div>
+					<div class="content">
+						<h1>
+							<!--<a href="javascript:getVideo(1);" id="fvideo" class="btn-lg active">视频库</a>-->
+							<a href="javascript:getVideo(2);" id="tvideo" class="btn-lg ">直播频道</a>
+							<!--<p class="fr tip"><img src="images/warningicon.png" alt="">直播暂存中的视频为您保留7天，到期后自动删除</p>-->
+							<div id="search" class="search fr">
+								<input id="searchtitle" type="text" class="txt-search" placeholder="请输入视频关键字">
+								<button id="btnSearch" class="btn-search"><img src="images/searchbtn.png" alt=""></button>
+							</div>
+						</h1>
+						<!--<header>-->
+							<!--<button class="btn-default" id="selectall" >全选</button>-->
+							<!--<button class="btn-default" id="shanchu">删除</button>-->
+							<!--<a href="mergemedia.html" target="_blank" id="hebing" class="btn-default">合并</a>-->
+							<!--<button class="btn-default" id="baocun" onclick="saveVideo()" style="display:none">永久保存</button>-->
+							<!--<div id="search" class="search fr">-->
+								<!--<input id="searchtitle" type="text" class="txt-search" placeholder="请输入视频关键字">-->
+								<!--<button id="btnSearch" class="btn-search"><img src="images/searchbtn.png" alt=""></button>-->
+							<!--</div>-->
+						<!--</header>-->
+						<section class="content-body">
+							<div class="con" id="add">
+								<h3><img src="images/upload.png" alt=""/></h3>
+								<p class="media-name">新建直播频道</p>
+							</div>
+							<ul class="media-list" id="pindao">
+								<!--<li class="con2">-->
+									<!--<div class="media_con">-->
+										<!--<div class="media_left">-->
+											<!--<img src="images/icon.png" alt=""/>-->
+										<!--</div>-->
+										<!--<div class="media_right">-->
+											<!--<h3><b>新建频道名称</b><span>2016-6-12</span></h3>-->
+											<!--<p><span>观看人次<a>9999<span>人</span></a></span><span>观看时长<a>999<span>分钟</span></a></span></p>-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</li>-->
+								<!--<li class="con2">-->
+									<!--<div class="media_con">-->
+										<!--<div class="media_left">-->
+											<!--<img src="images/icon.png" alt=""/>-->
+										<!--</div>-->
+										<!--<div class="media_right">-->
+											<!--<h3><b>新建频道名称</b><span>2016-6-12</span></h3>-->
+											<!--<p><span>观看人次<a>9999<span>人</span></a></span><span>观看时长<a>999<span>分钟</span></a></span></p>-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</li>-->
+								<!--<li class="con2">-->
+									<!--<div class="media_con">-->
+										<!--<div class="media_left">-->
+											<!--<img src="images/icon.png" alt=""/>-->
+										<!--</div>-->
+										<!--<div class="media_right">-->
+											<!--<h3><b>新建频道名称</b><span>2016-6-12</span></h3>-->
+											<!--<p><span>观看人次<a>9999<span>人</span></a></span><span>观看时长<a>999<span>分钟</span></a></span></p>-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</li>-->
+							</ul>
+						</section>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<div id="a1"></div>
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="layui/layui.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/media.js"></script>
+	<script src="js/use.js"></script>
+    <script>
+    getHardsize();
+	function getHardsize() {
+			$.ajax({
+				type:"post",
+				url:"http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
+				dataType:"json",
+				success:function (data) {
+					if(data.code==1013){
+						location.href="http://www.xiangtazhibo.com/newlive/webow/login.html";
+					} else{
+							 $("#usehardsize").html(data.data.useHardSize+"G");
+							 $("#usehardsize2").html(data.data.useHardSize+"G");
+							 $("#videonum").html(data.data.videonum+"个");
+							 $("#hardsize").html(data.data.hardsize+"G");
+							var width = data.data.hardpercent+"%";
+							 $("#hardpercent").css("width",width);
+					}
+				}
+				});
+		}
+	</script>
+	<script>
+		$(function(){
+			var url='http://www.xiangtazhibo.com/newlive/muser/getAccount.do';
+			$.ajax({
+				url:url,
+				type:'get',
+				dataType:'json',
+				success:function(data){
+					console.log(data.data.nikename);
+					$('#uname').text(data.data.nikename);
+				}
+			})
+		})
+	</script>
+
+</body>
+</html>

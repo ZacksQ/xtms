@@ -1,0 +1,29 @@
+/*.content-warp{ overflow: hidden;}*/
+.content{ overflow: hidden;}
+.content-warp>h2{ margin-top: 30px}
+.content-body{ padding:24px 30px;}
+.content-body p{ font-size: 20px; color: #555}
+.content-body .red{ font-size: 20px;display: inline-block; margin-bottom: 24px;}
+.content-body{  border-radius:0 0 10px 10px; min-height: 250px; height: auto;}
+.layui-tab-title .layui-this{ background-color: #77b0f0; color: #fff; border-radius: 8px;}
+.layui-tab-title .layui-this:after{ border: 0}
+.layui-tab-title{ border-bottom: 0}
+.layui-tab-title li{ width: 110px; color: #555; font-size: 16px;}
+.layui-form-item{ margin-bottom: 0;}
+.content>.content-warp{box-shadow: 0 15px 30px rgba(0,0,0,.2);}
+.layui-form-pane .layui-form-label{border:0; background-color: transparent; font-size: 14px; color: #555; line-height: 30px; padding: 0;}
+.layui-form-pane .layui-input{ border-radius: 5px; background-color: #f9f9f9; width: 140px; padding:0 5px; height: 30px; line-height: 30px;}
+.layui-form-item .layui-input-inline{ width: 150px;}
+
+.msg-center-list li{ border-bottom: 1px solid #d0d0d0}
+.msg-center-list li a{font-size: 14px; display: block; padding: 20px 0; color: #555}
+.msg-center-list li a:hover{ text-decoration: underline;}
+.msg-center-list li a span{ font-size: 14px; color: #555}
+#list li{float:left;width:30px;height:30px;color:#000;background:#fff;border:1px solid #ccc;margin:20px 10px;line-height: 30px;text-align: center}
+#date_look{width:70px;height:30px;background:#77b0f0;border-radius: 10px;-moz-border-radius: 10px;-webkit-border-radius: 10px;-o-border-radius: 10px;color:#fff;font-size: 16px; float: right;margin-right:10px;}
+.con_one span,.con_one2 span{margin-left:20px;font-size: 18px;}
+.headpic{display:inline-block;width:50px;height:50px;}
+.con_one2{position:relative;top:15px;}
+.con_one2 span:first-child{position:absolute;top:15px;}
+.con_one2 span:last-child{margin-left:130px;}
+.xiu{width:80px;height:30px;line-height: 30px;text-align: center;color:#fff;font-size: 18px;margin: 65px 380px;background:#77b0f0;border-radius: 15px;-webkit-border-radius: 15px;-o-border-radius: 5px;-moz-border-radius: 15px;}

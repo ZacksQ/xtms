@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>象塔直播-修改个人信息</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="css/global.css">
+	<link rel="stylesheet" href="css/account.css">
+	<script>var nav = 'modification';</script>
+</head>
+<body>
+	<div class="container">
+		<header class="top"></header>
+		<section class="body">
+			<div class="wrapper">
+				<header>					
+					<a href="" class="fr btn-lg"><img src="images/playicon.png" alt="">账户信息</a>
+				</header>
+				<div class="content-warp">
+					<div class="leftnav fl" id="account">
+					</div>
+					<div class="content">
+						<div class="content-warp">
+							<h2>修改资料</h2>
+							<div class="content-body">
+								<div class="con_one">
+									<span>账户名称:</span>
+									<span>象塔直播</span>
+								</div>
+								<div class="con_one2">
+									<span>账户头像:</span>
+									<span class="headpic"><img id="headpic" src="images/icon.png" alt=""/></span>
+								</div>
+								<button class="xiu" id="xiugai">修改</button>
+							</div>							
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>	
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+		getHardsize();
+		function getHardsize() {
+			$.ajax({
+				type:"post",
+				url:"http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
+				dataType:"json",
+				success:function (data) {
+					if(data.code==1013){
+						location.href="http://www.xiangtazhibo.com/newlive/webow/login.html";
+					}
+				}
+			});
+		}
+	</script>
+	<script>
+		$(function(){
+			var url='http://www.xiangtazhibo.com/newlive/muser/getAccount.do';
+			$.ajax({
+				url:url,
+				type:'get',
+				dataType:'json',
+				success:function(data){
+//					console.log(data.data.headimg);
+					$("#headpic").attr("src",data.data.headimg)
+				}
+			})
+		})
+		$("#xiugai").click(function(){
+			location.href='modifyaccount.html';
+		})
+	</script>
+</body>
+</html>

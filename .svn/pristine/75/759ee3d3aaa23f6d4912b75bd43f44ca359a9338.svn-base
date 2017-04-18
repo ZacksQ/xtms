@@ -1,0 +1,4 @@
+<a href="datanalysis.html" class="datanalysis fr btn-lg"><img src="images/datanalysisicon.png" alt="">数据统计</a>
+<a href="usermanage.html" class="usermanage fr btn-lg"><img src="images/accout.png" alt="">用户管理</a>
+<a href="monitor.html" class="monitor fr btn-lg"><img src="images/ctrlicon.png" alt="">直播控制</a>
+<a href="channel.html" class="channel fr btn-lg"><img src="images/playicon.png" alt="">频道管理</a>
