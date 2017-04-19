@@ -243,7 +243,11 @@ function delvote(id){
   }
 
     function modifyconfig(type, field, value) {
-    var postdata = { "liveid": liveid, "type": type, voteId:$("input[name=lolist]:checked").val() };
+      if($("input[name=lolist]").length==0){
+        layer.msg("请新建一个投票活动");
+        return false;
+      }
+    var postdata = { "liveid": liveid, "type": type, voteId:$("input[name=lolist]:checked").length==0?'':$("input[name=lolist]:checked").val() };
     postdata[field] = value;
     $.ajax({
       url: website + 'mLivesetting/setSomeSet.do',
