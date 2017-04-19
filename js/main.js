@@ -1,9 +1,4 @@
-var menuitem = '';
-if(menuitem!=''){
-    console.log(menuitem);
-  }else{
-    console.log("undefined var")
-  }
+
 $('body').on('click', '.topclass>li a', function () {
   //$(".topclass>li.active").find("ul").slideUp().parent().removeClass("active");
   //$(this).parent().siblings().children('ul').hide();
@@ -43,6 +38,11 @@ $.get('navBar.html').done(function (n) {
      var _this = $(this);
      _this.attr("href",_this.attr("href")=="javascript:;"?"javascript:;":_this.attr("href")+"?liveid="+request["liveid"]);
   });
+  var currmenu = location.pathname.match(/\w+(?=.html)/)[0];
+  $(".topclass a[data-nav="+currmenu+"]").parent().addClass("active");
+  if(currmenu=="channel"|| currmenu=="sharesetting" || currmenu=="advertise"){
+    $(".topclass li").eq(0).addClass("active").find("ul").show();
+  }
   // var seocndLi = $('.topclass>li>ul>li');
   // for (var i = 0; i < seocndLi.length; i++) {
   //   if (seocndLi.eq(i).children('a').text() == sessionStorage.secondLabel) {
