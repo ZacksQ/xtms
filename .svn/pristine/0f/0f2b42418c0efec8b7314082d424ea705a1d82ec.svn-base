@@ -1,9 +1,0 @@
-<ul class="topclass">
-	<li data-nav="account"><a href="account.html">账户提现</a><div class="bgc"></div></li>
-	<li data-nav="rewardrecord"><a href="rewardrecord.html">打赏记录</a><div class="bgc"></div></li>
-	<li data-nav="messagecenter"><a href="messagecenter.html">信息中心</a><div class="bgc"></div></li>
-	<li data-nav="modification"><a href="modification.html">修改资料</a><div class="bgc"></div></li>
-</ul>
-<script>
-	document.querySelector("li[data-nav="+nav+"]").className="active";
-</script>
