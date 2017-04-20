@@ -23,6 +23,7 @@
 #date_look{width:70px;height:30px;background:#77b0f0;border-radius: 10px;-moz-border-radius: 10px;-webkit-border-radius: 10px;-o-border-radius: 10px;color:#fff;font-size: 16px; float: right;margin-right:10px;}
 .con_one span,.con_one2 span{margin-left:20px;font-size: 18px;}
 .headpic{display:inline-block;width:50px;height:50px;}
+.headpic img{ width: 50px; height: 50px }
 .con_one2{position:relative;top:15px;}
 .con_one2 span:first-child{position:absolute;top:15px;}
 .con_one2 span:last-child{margin-left:130px;}

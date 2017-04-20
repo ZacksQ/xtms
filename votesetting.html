@@ -226,20 +226,34 @@ $("#openvote").click(function(){
 
   });
 function delvote(id){
-    $.ajax({
-      url: website + 'mVote/deleteVote.do',
-      type: 'post',
-      dataType: 'json',
-      data: {"voteId": id},
-      success:function(d){
-        if(d["success"]){
-          $("tr[data-voteid="+id+"]").remove();
-          layer.msg("删除成功");
-        }else{
-          layer.msg(d.msg);
+  layer.open({
+      title:"提示",
+      content:'确定要删除投票活动吗？',
+      btn: ['确认', '取消']
+        ,yes: function(index, layero){
+          //按钮【按钮一】的回调
+          $.ajax({
+            url: website + 'mVote/deleteVote.do',
+            type: 'post',
+            dataType: 'json',
+            data: {"voteId": id},
+            success:function(d){
+              if(d["success"]){
+                $("tr[data-voteid="+id+"]").remove();
+                layer.msg("删除成功");
+              }else{
+                layer.msg(d.msg);
+              }
+            }
+          });
+          layer.close(index);
         }
-      }
+        ,btn2: function(index, layero){
+          //按钮【按钮二】的回调          
+          //return false 开启该代码可禁止点击该按钮关闭
+        }
     });
+    
   }
 
     function modifyconfig(type, field, value) {

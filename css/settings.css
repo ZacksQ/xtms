@@ -81,6 +81,39 @@
   background: #fff;
   padding-left: 30px;
   margin-top: 16px;
+  padding-bottom: 30px;
+}
+
+/*图片*/
+.floor_bg_text{
+	margin-top: 16px;
+	position: relative;
+}
+
+.floor_bg{
+	width: 160px;
+	height: 284px;
+	margin-left: 30px;
+}
+
+#floor_bg{
+	width: 160px;
+	height: 284px;
+}
+
+.floor_text .select_btn {
+  background-color: #5383c3;
+  color: #fff;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 6px;
+}
+
+.floor_text{
+	position: absolute;
+	left: 200px;
+	top: -10px;
 }
 
 .floor_center .nav_switch button {

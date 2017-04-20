@@ -58,7 +58,7 @@ function searchName(){
             var html='';
             for(var i=0;i<data.data.livechannelList.length;i++){
                 var p=data.data.livechannelList[i];
-                    html+='<li class="con2 media_left" data-liveid="'+p.id+'"><a href="monitor.html?liveid='+p.id+'" class="media_con"><img class="fl" src="'+ (p.logoimg==""?"images/icon.png":p.logoimg)+'" alt=""/><div class="media_right"><h3><b>'+p.channelname+'</b><span class="fr">2016-6-12</span></h3><p><span>观看人次'+ p.viewernum+'<span>人</span></span></p></div></a><a href="javascript:;" onclick=\'dellive(\"'+p.id+'\")\' class="fr">删除</a></li>';
+                    html+='<li class="con2 media_left" data-liveid="'+p.id+'"><a href="monitor.html?liveid='+p.id+'" class="media_con"><img class="fl" src="'+ (p.logoimg==""?"images/icon.png":p.logoimg)+'" alt=""/><div class="media_right"><h3><b>'+p.channelname+'</b><span class="fr">'+p.createtime+'</span></h3><p><span>观看人次'+ p.viewernum+'<span>人</span></span></p></div></a><a href="javascript:;" onclick=\'dellive(\"'+p.id+'\")\' class="fr">删除</a></li>';
             }
             $("#pindao").html(html);
         }

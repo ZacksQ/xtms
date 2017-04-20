@@ -25,7 +25,7 @@ img.response{
 .fl{float: left;}
 .fr{float: right;}
 
-.container{ width: 1250px; margin: 0 auto 50px; padding-top: 84px; }
+.container{ width: 1250px; margin: 0 auto 50px; padding-top: 30px; }
 header.top{ height: 90px; line-height: 90px; position: relative; padding: 0 30px}
 header .xtlogo{ width: 406px;}
 header .xtlogo img{ width: 190px; position: absolute; top: 0;}

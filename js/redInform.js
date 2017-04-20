@@ -27,7 +27,7 @@ function loadProduct(start){
                     '<li id="'+ p.id+'"><a href="messagedetial.html?id='+ p["id"]+'">'+p.sendname+'<span class="fr">'+p.sendtimestr+'</span></a></li>'
                 ;
             }
-            $("#msg-inform").html(html);
+            
             var pagelist="";
             if(pno-3>0){
                 pagelist+='<li><a href="'+parseInt(pno-3)+'">'+parseInt(pno-3)+'</a></li>';
@@ -48,8 +48,14 @@ function loadProduct(start){
             if(pno+3<=pagetotle){
                 pagelist+='<li><a href="'+parseInt(pno+3)+'">'+parseInt(pno+3)+'</a></li>';
             }
-            $("#list").html(pagelist);
-            $("#num").text(data.totalCount);
+            if(data.totalCount>0){
+                $("#msg-inform").html(html);
+                $("#list").html(pagelist);
+            }else{
+                $("#msg-inform").text("暂无信息");
+            }
+                $("#num").text(data.totalCount);
+
         }
     })
 }

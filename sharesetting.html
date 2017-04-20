@@ -42,7 +42,7 @@
               </div>
               <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label" style=" padding-left:0; text-align:left">
-                    <!-- <img id="pickfiles" class="shareimg" src="images/preview_exp.JPG" alt=""> -->
+                    <img class="shareimg" src="images/preview_exp.JPG" alt="">
                 </label>
                 <div class="layui-input-inline" style="width:450px">
                   <textarea name="sharedesc" placeholder="请输入内容" class="layui-textarea" maxlength="120"></textarea>
@@ -57,7 +57,7 @@
                 </div>
               <div class="layui-form-item">
                 <label class="layui-form-label" style=" padding-left:0; text-align:left">
-                  <!-- <img src="images/preview_exp.JPG" class="shareimg" alt=""> -->
+                  <img src="images/preview_exp.JPG" class="shareimg" alt="">
                 </label>
                 <div class="layui-input-inline" style="width:450px">
                   <textarea name="sharedesc" placeholder="请输入内容" class="layui-textarea" maxlength="120"></textarea>
@@ -105,15 +105,16 @@ layui.use(['element', 'form', 'layer'], function () {
     url: 'http://www.xiangtazhibo.com/newlive/mivechannel/getLiveSet.do',
     type: 'get',
     datType: 'json',
-    data: { "liveid": liveid, "types": 13 },
+    data: { "liveid": liveid, "types": "13,10" },
     success: function success(result) {
       console.log(result);
       
         if (result.success) {
           var share = result.data.share;
+          var logo = result.data.logoAndName.logoimg;
           $("input[name=sharetit]").val(share.sharetitle);
           $("textarea[name=sharedesc]").val(share.sharecontent);
-          $(".shareimg").attr("src",share.shareimg);
+          $(".shareimg").attr("src",logo);
         } else {
           layer.msg(result.msg);
         }
