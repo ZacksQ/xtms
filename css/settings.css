@@ -81,19 +81,19 @@
   background: #fff;
   padding-left: 30px;
   margin-top: 16px;
-  padding-bottom: 30px;
+  padding-bottom: 20px;
 }
 
 /*图片*/
 .floor_bg_text{
-	margin-top: 16px;
+	margin-top: -5px;
+	margin-left: 30px;
 	position: relative;
 }
 
 .floor_bg{
 	width: 160px;
 	height: 284px;
-	margin-left: 30px;
 }
 
 #floor_bg{
@@ -113,7 +113,11 @@
 .floor_text{
 	position: absolute;
 	left: 200px;
-	top: -10px;
+	top: 13px;
+}
+
+.floor_baocun{
+	margin-top: 320px !important;
 }
 
 .floor_center .nav_switch button {

@@ -63,7 +63,7 @@
               	</div>-->
               	
               	<div class="long_content_box fl">
-                <img class="header_img floor_bg" id="floor_bg" src="">
+                <img class="header_img floor_bg" id="floor_bg" src="images/bgimg.png">
                 <!--进度条-->
                 <div class="progressbox">
                   <!--<div id="progtext"></div>-->
@@ -88,7 +88,7 @@
               </div>
               
               <!--按钮层-->
-              <div class="floor_bottom">
+              <div class="floor_bottom floor_baocun">
                 <button class="btn-merge fr" id="saveButton">保存</button>
               </div>
             </div>
@@ -104,6 +104,7 @@
 <script src="js/use.js"></script>
 <script src="js/ProgressBarWars.js"></script>
 <script>
+	var filename = null;
   getHardsize();
   function getHardsize() {
     $.ajax({
@@ -138,6 +139,8 @@ getcn('channel');
           var inviteImg =  result.data.inviteCard.inviteImg;
           $("#floor_bg").prop("src",inviteImg);
          if(result.success){
+         	 var inviteImg =  result.data.inviteCard.inviteImg;
+          $("#floor_bg").prop("src",inviteImg);
            if(result.success){
              if(inviteopen == 0){
                $('#switch').prop('checked',false)
@@ -165,7 +168,7 @@ getcn('channel');
         return;
       }
       //上传图片
-      uploadLocalImg($("#bgImg")[0].files[0], 1, liveid);
+      filename = uploadLocalImg($("#bgImg")[0].files[0], 1, liveid);
     });
     layui.use('form', function () {
       var form = layui.form();
@@ -177,10 +180,12 @@ getcn('channel');
     $('body').on('click', '#saveButton', function () {
       var status = $('#switch').is(':checked') ? 1 : 0;
       var time = $('#time').val();
+      var bgimg = $('#bgImg').attr('src');
       if (status == 1 && time == '') {
         layer.msg('时间不能为空');
         return;
       }
+      console.log(filename);
       $.ajax({
         type: "POST",
         dataType: 'JSON',
@@ -190,7 +195,7 @@ getcn('channel');
           'type': 2,
           'status': status,
           'time': time,
-          'bakimg': bakimg
+          'inviteImg': filename
         },
         beforeSend: function () {
           $('#saveButton').attr('disabled', true);

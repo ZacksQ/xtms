@@ -24,7 +24,7 @@
         <div class="leftnav fl" id="account">
         </div>
         <div class="content">
-          <div class="long_box fl" style="position: relative">
+          <div class="long_box fl" style="position: relative;height:auto">
             <div class="long_header">
               <span>资料修改</span>
             </div>
@@ -33,6 +33,16 @@
               <input type="text" style="border: 1px solid #eee;background-color: #f9f9f9;border-radius: 5px;width: 232px;
               padding:8px 5px;margin-top:10px;" placeholder="输入名称" id="channelName">
             </div>
+            <!-- <div class="long_switch" style="padding-left:24px;padding-bottom:24px">
+              <p style="font-size: 16px">手机号码：</p>
+              <input type="text" style="border: 1px solid #eee;background-color: #f9f9f9;border-radius: 5px;width: 232px;
+              padding:8px 5px;margin-top:10px;" name="tel">
+            </div>
+            <div class="long_switch" style="padding-left:24px;padding-bottom:24px">
+              <p style="font-size: 16px">密码：</p>
+              <input type="text" style="border: 1px solid #eee;background-color: #f9f9f9;border-radius: 5px;width: 232px;
+              padding:8px 5px;margin-top:10px;" name="password">
+            </div> -->
             <div class="long_content">
               <p style="margin-top:20px;font-size: 16px">修改图标：</p>
               <div class="long_content_box fl">
@@ -98,6 +108,8 @@
       if(data["success"]){
         $("#channelName").val(data["data"]["nikename"]);
         $("#imgbox").attr("src",data["data"]["headimg"]);
+        $('input[name=tel]').val(data["data"]["phone"]);
+        $('#input[name=password]').val(data["data"]["pwd"]);
       }
     }
   })
@@ -109,30 +121,7 @@
     layui.use('layer', function(){
       var layer = layui.layer;
     });
-//    $.ajax({
-//      type: "POST",
-//      dataType: 'JSON',
-//      url: website + 'mivechannel/getLiveSet.do',
-//      data: {
-//        'liveid':liveid,
-//        'types':10
-//      },
-//      success: function (result) {
-//        if (result) {
-//         if(result.success){
-//           var channelname = result.data.logoAndName.channelname;
-//           var logoimg = result.data.logoAndName.logoimg;
-//           $('#channelName').val(channelname);
-//           $('#imgbox').prop('src',logoimg);
-//         }else{
-//           layer.msg(result.msg)
-//         }
-//        }
-//      },
-//      error: function () {
-//        console.log("error");
-//      }
-//    })
+
     //上传图片
     $("#logoimg").on("change", function (event) {
       event.preventDefault();
@@ -146,15 +135,26 @@
     });
     $('body').on('click', '#saveButton', function () {
       var livename = $('#channelName').val();
-      if (livename == 0) {
+      var tel = $('input[name=tel]').val();
+      var password = $('#input[name=password]').val();
+      if (livename == "") {
         layer.msg('账户名称不能为空');
-        $('#channelName').select();
+        return;
+      }
+      if (tel == "") {
+        layer.msg('手机号码不能为空');
+        return;
+      }
+      if (password == "") {
+        layer.msg('密码不能为空');
         return;
       }
 //      var logofile = $("#imgbox").attr('src');
       var formData = new FormData();
-      formData.append('username',livename);
-      formData.append('headimg',$("#imgbox").attr("src"));
+      formData.append('username', livename);
+      formData.append('headimg', $("#imgbox").attr("src"));
+      formData.append('phone', tel);
+      formData.append('pwd', password);
       // formData.append('headimgfile',$('#logoimg')[0].files[0]);
       $.ajax({
         type: "post",

@@ -109,13 +109,18 @@
           }
           $.ajax({
             url: website + 'mivechannel/getLiveSet.do',
-            data:{liveid:liveid,types:11},
+            data:{
+            	liveid:liveid,
+            	types:11
+            },
             type: "POST",
             dataType: 'JSON',
             success:function(d){
               if(d["success"]){
                 $(".skinlist li[data-id="+d["data"]["skinInfo"]["id"]+"]").addClass("active")
               }
+              var imgsrc = d.data.skinInfo.preview;
+              $(".content_l img")[0].src = imgsrc;
             }
           });
          }
@@ -136,7 +141,11 @@
               type: "POST",
               dataType: 'JSON',
               url: website + 'mLivesetting/setSomeSet.do',
-              data:{liveid:liveid,skinid:$(".skinlist li.active").attr("data-id"),type:6},
+              data:{
+              	liveid:liveid,
+              	skinid:$(".skinlist li.active").attr("data-id"),
+              	type:6
+              },
               success: function (data) {
                 if (data["success"]) {
                  layer.msg('设置皮肤成功！');
