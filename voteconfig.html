@@ -52,7 +52,7 @@
                 <div class="layui-input-inline" style="width:50px;">
                   <input type="number" name="votetimes" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="1">
                 </div>
-                <label class="layui-form-label" style=" padding-left:0; text-align:left">张</label>
+                <label class="layui-form-label" style=" padding-left:0; text-align:left;width: 20px;">张</label><label class="layui-form-label" style="width: 300px;text-align:left;"><span style="color:#f00">*</span><span>选票张数即每个用户拥有几张选票</span></label>
               </div>
               <div class="layui-form-item">
                 <label class="layui-form-label">投票结果：</label>
@@ -60,6 +60,13 @@
                   <input type="checkbox" id="switch" name="open" lay-skin="switch" lay-filter="switchTest" title="开关">
                   <label class="layui-form-label labelright">向用户公开</label>
               </div>
+              <!--<div class="layui-form-item">
+    						<label class="layui-form-label">选择类型：</label>
+    						<div class="layui-input-block">
+      						  <input type="radio" name="votecon" value="单选" title="单选" checked>
+     							  <input type="radio" name="votecon" value="多选" title="多选" >
+    						</div>
+  						</div>-->
               <a href="javascript:;" class="btn-functions fr" id="addvote">设置活动</a>
               <div class="clear"></div>
               <div id="configoption" style="border:1px solid #fafafa; padding:10px 30px;">

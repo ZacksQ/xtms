@@ -88,7 +88,7 @@ h1 .btn-lg{  margin-top: 0; }
 .btn-default{ background-color: #6c98d4; display: inline-block; padding: 5px 20px; border: 0; color: #fff; border-radius: 6px; margin-right: 8px; cursor:pointer;}
 .btn-functions{ background-color: #6c98d4; display: inline-block; padding: 7px 10px; border: 0; color: #fff; border-radius: 6px; margin-right: 8px; cursor:pointer; font-size: 14px}
 .tip img{ vertical-align: -1px; margin-right: 5px;}
-.tip{ color: #969696}
+.tip{ color: #969696;padding-left: 5px;}
 .content-body{ padding: 16px 0 0 30px; height: 500px; overflow: auto;}
 .con{ box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;width: 381px; margin: 0 20px 30px 0; height: 112px; border:1px solid #eee; float: left; box-shadow: 1px 2px 7px rgba(0,0,0,.1); padding: 20px 10px; position: relative;text-align: center;}
 .media .con{ background-color: #e3efff;box-shadow: 1px 2px 7px rgba(83,131,195,.2);}

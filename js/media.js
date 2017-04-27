@@ -7,17 +7,22 @@ $("#add").click(function(){
         layer.open({
             title: '输入频道名称'
             ,area:['500px','']
-            ,content: '<h3 style="color:#5485c4">上传频道标签</h3><div style="width:500px;height:240px;margin:10px auto;"><h3 id="show" style="width:40%;height:90%;background:#ddd url(images/upload.png) no-repeat 50% 50%;float:left;"> <input id="file" type="file" style="height: 100%;display: block;cursor: pointer; opacity:0" onchange="addpic()"></h3><h3 style="width:50%;height:100%;float:left;">'+
+            ,content: '<h3 style="color:#5485c4">上传频道标签</h3><div style="width:500px;height:150px;margin:10px auto;"><h3 id="show" style="width:136px;height:136px;background:#ddd url(images/upload.png) no-repeat 50% 50%;float:left;"> <input id="file" type="file" style="height: 100%;width:136px;display: block;cursor: pointer; opacity:0" onchange="addpic()"></h3><h3 style="width:55%;height:136px;float:left;">'+
             // '<p style="width:128px;height:128px;background:#7dafe0;margin-top:20px;margin-left:10px">'+
             // '<img src="" alt="" id="show" style="width:100%;height:100%;"/></p>'+
-                '<p><ul style="color:#7dafe0;margin-top:5px;margin-left:10px"><li>图片大小为2M以内支持PNG,JPG,JPEG格式</li><li>您上传的图片会自动生成128*128像素的图片</li><li>请注意图片是否清晰</li></ul></p></h3></div><input type="text" id="pName" placeholder="请输入频道名称" style="border:1px solid #ccc;outline:none;border-radius:10px;-webkit-border-radius:10px;-o-border-radius:10px;-moz-border-radius:10px;width:300px;padding-left:10px;margin-left:10px;width:350px;height:36px;" value=""><p style="color:#f00;margin-top:20px;margin-bottom:10px;">直播说明</p><p style="color:#ccc;">象塔直播严禁上传包括反动、暴力色情、违法、侵权等内容的文件，平台有义务配合有关部门将上传违规文件的用户信息保存，并保留因配合调查及冻结账号的权利。</p>'
+                '<p><ul style="color:#7dafe0;margin-top:0px;margin-left:20px"><span style="color:#f00">*</span><li style="color:#ccc;margin-left:3px;display: inline-block;">图片大小为2M以内支持PNG,JPG,JPEG格式</li><br><span style="color:#f00">*</span><li style="color:#ccc;margin-left:3px;display: inline-block;">您上传的图片会自动生成54*54像素的图片</li><li style="color:#ccc;margin-left:8px">请注意图片是否清晰</li></ul></p></h3></div><div style="color:#5485c4;">输入频道名称:</div><input type="text" id="pName" placeholder="输入名称" style="border:1px solid #ccc;outline:none;border-radius:10px;-webkit-border-radius:10px;-o-border-radius:10px;-moz-border-radius:10px;width:300px;padding-left:10px;margin-left:0px;margin-top:16px;width:350px;height:36px;" value=""><p style="color:#f00;margin-top:20px;margin-bottom:10px;">直播说明</p><p style="color:#ccc;">象塔直播严禁上传包括反动、暴力色情、违法、侵权等内容的文件，平台有义务配合有关部门将上传违规文件的用户信息保存，并保留因配合调查及冻结账号的权利。</p><div style="color:#ccc;margin-top:10px;"><input name="checkbox" type="checkbox" value="checkbox" checked style="-webkit-appearance: checkbox;" id="mecheckbox"/>我已阅读直播说明</div>'
         ,closeBtn:0
             ,btn: ['确定','取消']
             ,yes: function(index,layero){
             layer.close(index);
             var name=$("#pName").val();
             if(name!=''){
-                addName(name);
+            	if ($("#mecheckbox").is(":checked")){
+            		addName(name);
+            	}
+                else{
+                	layer.msg("请阅读直播说明并勾选");
+                }
             }else{
                 layer.msg("请输入频道名称");
             }

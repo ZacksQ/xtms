@@ -67,6 +67,8 @@ function uploadImg(file,type,id){
 			if (result) {
 				if(result.success){
 					layer.msg("成功");
+					$(".upload_box").css("border","none");
+					$(".upload_char span").hide();
 					url = result.data.url;
 					$("#imgbox").prop('src',url).show();
 					$("#prog").hide();
@@ -133,11 +135,13 @@ function uploadLocalImg(file,type,id){
 				if(result.success){
 					layer.msg("成功");
 					url = result.data.url;
-					$("#floor_bg").prop('src',url);
+					$("#floor_bg").prop('src',url).show();
+					
 					filename = result.data.filename;
 				}else{
 					layer.msg("失败");
 				}
+				$("#prog").hide();
 			}
 
 		},

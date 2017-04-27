@@ -44,14 +44,14 @@
               </div>
               <!--内容层-->
               <div class="floor_center">
-                <div class="example">
+                <!--<div class="example">
                   <p style="font-size: 14px;color:#bbd4f6;">示例：</p>
                   <img src="images/example.png" alt="">
-                </div>
+                </div>-->
                 <p style="margin-top:8px">建议上传750*70像素图片</p>
                 <div class="upload_box">
                   <div class="upload_btn_box">
-                    <div class="upload_char">
+                    <div class="upload_char" style="width: 460px;height: 60px;position: absolute;top:15px;z-index: 100;">
                       <img src="images/upload.png" alt="" style="width: 18px;height:18px;position: relative;top:-4px;">
                       <span style="font-size: 18px;color: #bbd4f6">添加图片</span>
                     </div>
@@ -65,7 +65,8 @@
                 </div>
                 <p class="url_box">
                   <label>链接地址：</label>
-                  <input type="text" id="url">
+                  <input type="text" id="url" value="http://">
+                  <label style="color:blue;font-size: 16px;margin-left: 10px;">删除</label>
                 </p>
                 <p style="margin-top:24px;">
                   <span class="red_warn">*</span>
@@ -133,6 +134,28 @@
            }
            if(advtitle){
              $('#imgbox').prop('src',advtitle);
+             var picsrc = $("#imgbox")[0].src;
+							if(picsrc.length == 0){
+									$(".upload_box").css("border","1px dashed #d7d7d7");		
+							}else{
+								$(".upload_box").css("border","none");
+								$("#bgImg").hover(
+									function(){
+										$(".upload_char").css("background-color","black");
+										$(".upload_char").css("opacity","0.3");
+										$(".upload_char").css("top","0px");
+										$(".upload_char").css("display","block");
+										$(".upload_char span").show();
+										$(".upload_char span").css("display","inline-block");
+										$(".upload_char span").css("margin-top","15px");
+										$(".upload_char span").html("更改图片");	
+	  				},function(){
+	  								$(".upload_char").css("top","15px");
+										$(".upload_char").css("opacity","0");
+										$(".upload_char").css("display","none");
+										$(".upload_char span").hide();
+	  				})
+	}
              $('.upload_char').hide();
              $('#imgbox').show();
            }else{
