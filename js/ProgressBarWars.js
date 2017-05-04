@@ -71,6 +71,7 @@ function uploadImg(file,type,id){
 					$(".upload_char span").hide();
 					url = result.data.url;
 					$("#imgbox").prop('src',url).show();
+					$("#floor_bg").prop('src',url).show();
 					$("#prog").hide();
 				}else{
 					layer.msg("失败");

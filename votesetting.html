@@ -91,11 +91,11 @@
   function getHardsize() {
     $.ajax({
       type:"post",
-      url:"http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
+      url:website +"mAccount/getHardSize.do",
       dataType:"json",
       success:function (data) {
         if(data.code==1013){
-          location.href="http://www.xiangtazhibo.com/newlive/webow/login.html";
+          location.href=website +"webow/login.html";
         }
       }
     });
@@ -189,7 +189,7 @@ var element = layui.element();
             $("#votelist tbody").append('<tr data-voteid="'+votelist[vl]["id"]+'"><td><input type="checkbox" name="lolist" value="'+votelist[vl]["id"]+'" title=""> </td><td>'+votelist[vl]["name"]+'</td><td>'+votelist[vl]["pncount"]+'</td><td>'+votelist[vl]["endtimeStr"]+'</td><td><a class="blue" href="javascript:;"  onclick=\"showvote(\''+votelist[vl]["id"]+'\')\">查看结果</a> <a class="blue" href="voteconfig.html?liveid='+liveid+'&voteid='+votelist[vl]["id"]+'">编辑</a> <a class="blue" onclick=\"delvote(\''+votelist[vl]["id"]+'\')\" href="javascript:;">删除</a></td></tr>');
           }
         $.ajax({
-          url: 'http://www.xiangtazhibo.com/newlive/mivechannel/getLiveSet.do',
+          url: website +'mivechannel/getLiveSet.do',
           type: 'post',
           datType: 'json',
           data: { "liveid": liveid, "types": 15 },
@@ -229,7 +229,7 @@ $("#openvote").click(function(){
 function delvote(id){
   layer.open({
       title:"提示",
-      content:'确定要删除投票活动吗？',
+      content: '<div style="padding-left:40%;color:#f00;">确认删除</div>',
       btn: ['确认', '取消']
         ,yes: function(index, layero){
           //按钮【按钮一】的回调

@@ -1,175 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>象塔直播-频道管理</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/settings.css">
-  <link rel="stylesheet" href="layui/css/layui.css">
-  <!--进度条引用css-->
-  <link rel="stylesheet" href="css/ProgressBarWars.css"/>
-</head>
-<body>
-<div class="container">
-  <header class="top"></header>
-  <section class="body">
-    <div class="wrapper">
-      <header class="cn"></header>
-      <div class="content-warp">
-        <div class="leftnav fl" id="navBar">
-        </div>
-        <div class="content">
-          <div class="long_box fl" style="position: relative">
-            <div class="long_header" style="padding-left: 35px;">
-              <span>频道管理</span>
-            </div>
-            <div class="long_switch" style="padding-left:34px;padding-bottom:24px">
-              <p style="font-size: 16px">修改频道名称：</p>
-              <input type="text" style="border: 1px solid #eee;background-color: #f9f9f9;border-radius: 5px;width: 232px;
-              padding:8px 5px;margin-top:10px;" placeholder="输入名称" id="channelName">
-            </div>
-            <div class="long_content">
-              <p style="margin-top:20px;font-size: 16px">修改频道图标：</p>
-              <div class="long_content_box fl">
-                <img class="header_img" id="imgbox" src="images/preview_exp.JPG">
-                <!--进度条-->
-                <div class="progressbox">
-                  <!--<div id="progtext"></div>-->
-                  <div class="progress" id="prog"></div>
-                </div>
-              </div>
-              <div class="fl change_channel_btn_group">
-                <label class="btn-default" style="padding:8px 10px;margin-left:10px;">上传图片<input type="file" id="logoimg" style="position: absolute;z-index:-1;">
-                </label>
-                <div class="info">
-                  <p>
-                    <span class="red_warn">*</span>
-                    <span>图片大小2M以内支持PNG、JPG、JPEG</span>
-                  </p>
-                  <p>
-                    <span class="red_warn">*</span>
-                    <span>您上传的图片自动生成54*54像素的图片</span>
-                  </p>
-                  <p style="margin-left:12px;">
-                    <span>请注意图片是否清晰</span>
-                  </p>
-                </div>
-              </div>
-              <p style="clear:both"></p>
-            </div>
-            <div class="floor_bottom">
-              <button class="btn-merge fr" id="saveButton">保存</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-<script src="js/jquery-1.9.1.min.js"></script>
-<script src="layui/layui.js"></script>
-<script src="js/main.js"></script>
-<script src="js/use.js"></script>
-<!--进度条引入js-->
-<script src="js/ProgressBarWars.js"></script>
-<script>
-  getHardsize();
-  function getHardsize() {
-    $.ajax({
-      type:"post",
-      url:"http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
-      dataType:"json",
-      success:function (data) {
-        if(data.code==1013){
-          location.href="http://www.xiangtazhibo.com/newlive/webow/login.html";
-        }
-      }
-    });
-  }
-</script>
-<script>
-  getcn('channel');
-  var liveid = null;
-  //新添加
-  $(function () {
-    layui.use('layer', function(){
-      var layer = layui.layer;
-    });
-    $.ajax({
-      type: "POST",
-      dataType: 'JSON',
-      url: website + 'mivechannel/getLiveSet.do',
-      data: {
-        'liveid':liveid,
-        'types':10
-      },
-      success: function (result) {
-        if (result) {
-         if(result.success){
-           var channelname = result.data.logoAndName.channelname;
-           var logoimg = result.data.logoAndName.logoimg;
-           $('#channelName').val(channelname);
-           $('#imgbox').prop('src',logoimg);
-         }else{
-           layer.msg(result.msg)
-         }
-        }
-      },
-      error: function () {
-        console.log("error");
-      }
-    })
-    //上传图片
-    $("#logoimg").on("change", function (event) {
-      event.preventDefault();
-      //查看是否有图片
-      var logo = $("#logoimg").val();
-      if (logo == null || logo == '') {
-        return;
-      }
-      //上传图片
-      uploadImg($("#logoimg")[0].files[0], 2, liveid);
-    });
-    $('body').on('click', '#saveButton', function () {
-      var livename = $('#channelName').val();
-      if (livename == 0) {
-        layer.msg('频道名称不能为空');
-        $('#channelName').select();
-        return;
-      }
-      var logofile = $("#imgbox").attr('src');
-      $.ajax({
-        type: "POST",
-        dataType: 'JSON',
-        url: website + 'mivechannel/setLivechannelInfo.do',
-        data: {
-          'liveid': liveid,
-          'livename': livename,
-          'logofile': logofile
-        },
-        beforeSend: function () {
-          $('#saveButton').attr('disabled', true);
-        },
-        success: function (result) {
-          if (result) {
-            if (result.success) {
-              layer.msg('保存成功');
-            } else {
-              layer.msg(msg);
-            }
-          }
 
-        },
-        complete: function () {
-          $('#saveButton').attr('disabled', false);
-        },
-        error: function () {
-          console.log("error");
-        }
-      })
-    })
-  })
-</script>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<title>象塔直播-频道管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="css/global.css">
+		<link rel="stylesheet" href="css/settings.css">
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<!--进度条引用css-->
+		<link rel="stylesheet" href="css/ProgressBarWars.css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<header class="top"></header>
+			<section class="body">
+				<div class="wrapper">
+					<header class="cn"></header>
+					<div class="content-warp">
+						<div class="leftnav fl" id="navBar">
+						</div>
+						<div class="content">
+							<div class="long_box fl" style="position: relative">
+								<div class="long_header" style="padding-left: 35px;">
+									<span>频道管理</span>
+								</div>
+								<div class="long_switch" style="padding-left:34px;padding-bottom:24px">
+									<p style="font-size: 16px">修改频道名称：</p>
+									<input type="text" style="border: 1px solid #eee;background-color: #f9f9f9;border-radius: 5px;width: 232px;
+              padding:8px 5px;margin-top:10px;" placeholder="输入名称" id="channelName">
+								</div>
+								<div class="long_content">
+									<p style="margin-top:20px;font-size: 16px">修改频道图标：</p>
+									<div class="long_content_box fl">
+										<img class="header_img" id="imgbox" src="images/preview_exp.JPG">
+										<!--进度条-->
+										<div class="progressbox">
+											<!--<div id="progtext"></div>-->
+											<div class="progress" id="prog"></div>
+										</div>
+									</div>
+									<div class="fl change_channel_btn_group">
+										<label class="btn-default" style="padding:8px 10px;margin-left:10px;">上传图片<input type="file" id="logoimg" style="position: absolute;z-index:-1;">
+                		</label>
+										<div class="info">
+											<p>
+												<span class="red_warn">*</span>
+												<span>图片大小2M以内支持PNG、JPG、JPEG</span>
+											</p>
+											<p>
+												<span class="red_warn">*</span>
+												<span>您上传的图片自动生成54*54像素的图片</span>
+											</p>
+											<p style="margin-left:12px;">
+												<span>请注意图片是否清晰</span>
+											</p>
+										</div>
+									</div>
+									<p style="clear:both"></p>
+								</div>
+								<div class="floor_bottom">
+									<button class="btn-merge fr" id="saveButton">保存</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="layui/layui.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/use.js"></script>
+		<!--进度条引入js-->
+		<script src="js/ProgressBarWars.js"></script>
+		<script>
+			getHardsize();
+
+			function getHardsize() {
+				$.ajax({
+					type: "post",
+					url: "http://www.xiangtazhibo.com/newlive/mAccount/getHardSize.do",
+					dataType: "json",
+					success: function(data) {
+						if(data.code == 1013) {
+							location.href = "http://www.xiangtazhibo.com/newlive/webow/login.html";
+						}
+					}
+				});
+			}
+		</script>
+		<script>
+			getcn('channel');
+			var liveid = null;
+			//新添加
+			$(function() {
+				layui.use('layer', function() {
+					var layer = layui.layer;
+				});
+				$.ajax({
+					type: "POST",
+					dataType: 'JSON',
+					url: website + 'mivechannel/getLiveSet.do',
+					data: {
+						'liveid': liveid,
+						'types': 10
+					},
+					success: function(result) {
+						if(result) {
+							if(result.success) {
+								var channelname = result.data.logoAndName.channelname;
+								var logoimg = result.data.logoAndName.logoimg;
+								$('#channelName').val(channelname);
+								$('#imgbox').prop('src', logoimg);
+							} else {
+								layer.msg(result.msg)
+							}
+						}
+					},
+					error: function() {
+						console.log("error");
+					}
+				})
+				//上传图片
+				$("#logoimg").on("change", function(event) {
+					event.preventDefault();
+					//查看是否有图片
+					var logo = $("#logoimg").val();
+					if(logo == null || logo == '') {
+						return;
+					}
+					//上传图片
+					uploadImg($("#logoimg")[0].files[0], 2, liveid);
+				});
+				$('body').on('click', '#saveButton', function() {
+					var livename = $('#channelName').val();
+					if(livename == 0) {
+						layer.msg('频道名称不能为空');
+						$('#channelName').select();
+						return;
+					}
+					var logofile = $("#imgbox").attr('src');
+					$.ajax({
+						type: "POST",
+						dataType: 'JSON',
+						url: website + 'mivechannel/setLivechannelInfo.do',
+						data: {
+							'liveid': liveid,
+							'livename': livename,
+							'logofile': logofile
+						},
+						beforeSend: function() {
+							$('#saveButton').attr('disabled', true);
+						},
+						success: function(result) {
+							if(result) {
+								if(result.success) {
+									layer.msg('保存成功');
+								} else {
+									layer.msg(msg);
+								}
+							}
+
+						},
+						complete: function() {
+							$('#saveButton').attr('disabled', false);
+						},
+						error: function() {
+							console.log("error");
+						}
+					})
+				})
+			})
+		</script>
+	</body>
+
 </html>

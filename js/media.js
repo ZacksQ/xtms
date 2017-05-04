@@ -7,10 +7,10 @@ $("#add").click(function(){
         layer.open({
             title: '输入频道名称'
             ,area:['500px','']
-            ,content: '<h3 style="color:#5485c4">上传频道标签</h3><div style="width:500px;height:150px;margin:10px auto;"><h3 id="show" style="width:136px;height:136px;background:#ddd url(images/upload.png) no-repeat 50% 50%;float:left;"> <input id="file" type="file" style="height: 100%;width:136px;display: block;cursor: pointer; opacity:0" onchange="addpic()"></h3><h3 style="width:55%;height:136px;float:left;">'+
+            ,content: '<h3 style="color:#5485c4">上传频道标签</h3><div style="width:500px;height:150px;margin:10px auto;"><h3 id="show" style="width:136px;height:136px;background:#ddd url(images/upload.png) no-repeat 50% 50%;float:left;position: relative;"><input id="file" type="file" style="height: 100%;width:136px;display: block;cursor: pointer; opacity:0;position: absolute;top:0px;" onchange="addpic()"><label for="file" id="filea" style="height:136px;width:136px;display: block;cursor: pointer; opacity:0;color:white;text-align: center;line-height: 136px;font-size: 14px;">更改图片</label></h3><h3 style="width:55%;height:136px;float:left;">'+
             // '<p style="width:128px;height:128px;background:#7dafe0;margin-top:20px;margin-left:10px">'+
             // '<img src="" alt="" id="show" style="width:100%;height:100%;"/></p>'+
-                '<p><ul style="color:#7dafe0;margin-top:0px;margin-left:20px"><span style="color:#f00">*</span><li style="color:#ccc;margin-left:3px;display: inline-block;">图片大小为2M以内支持PNG,JPG,JPEG格式</li><br><span style="color:#f00">*</span><li style="color:#ccc;margin-left:3px;display: inline-block;">您上传的图片会自动生成54*54像素的图片</li><li style="color:#ccc;margin-left:8px">请注意图片是否清晰</li></ul></p></h3></div><div style="color:#5485c4;">输入频道名称:</div><input type="text" id="pName" placeholder="输入名称" style="border:1px solid #ccc;outline:none;border-radius:10px;-webkit-border-radius:10px;-o-border-radius:10px;-moz-border-radius:10px;width:300px;padding-left:10px;margin-left:0px;margin-top:16px;width:350px;height:36px;" value=""><p style="color:#f00;margin-top:20px;margin-bottom:10px;">直播说明</p><p style="color:#ccc;">象塔直播严禁上传包括反动、暴力色情、违法、侵权等内容的文件，平台有义务配合有关部门将上传违规文件的用户信息保存，并保留因配合调查及冻结账号的权利。</p><div style="color:#ccc;margin-top:10px;"><input name="checkbox" type="checkbox" value="checkbox" checked style="-webkit-appearance: checkbox;" id="mecheckbox"/>我已阅读直播说明</div>'
+                '<p><ul style="color:#7dafe0;margin-top:0px;margin-left:20px"><span style="color:#f00">*</span><li style="color:#5485c4;margin-left:3px;display: inline-block;">图片大小为2M以内支持PNG,JPG,JPEG格式</li><br><span style="color:#f00">*</span><li style="color:#5485c4;margin-left:3px;display: inline-block;">您上传的图片会自动生成54*54像素的图片</li><li style="color:#ccc;margin-left:8px">请注意图片是否清晰</li></ul></p></h3></div><div style="color:#5485c4;">输入频道名称:</div><input type="text" id="pName" placeholder="输入名称" style="border:1px solid #ccc;outline:none;border-radius:10px;-webkit-border-radius:10px;-o-border-radius:10px;-moz-border-radius:10px;width:300px;padding-left:10px;margin-left:0px;margin-top:16px;width:350px;height:36px;" value=""><br><p style="color:#f00;margin-top:20px;margin-bottom:10px;" >直播说明</p><p style="color:#ccc;">象塔直播严禁上传包括反动、暴力色情、违法、侵权等内容的文件，平台有义务配合有关部门将上传违规文件的用户信息保存，并保留因配合调查及冻结账号的权利。</p><div style="color:#ccc;margin-top:10px;"><input name="checkbox" type="checkbox" value="checkbox" checked style="-webkit-appearance: checkbox;" id="mecheckbox"/>我已阅读直播说明</div>'
         ,closeBtn:0
             ,btn: ['确定','取消']
             ,yes: function(index,layero){
@@ -86,6 +86,16 @@ function addpic(){
         // $("#show").attr("src",data.data.url);
         $("#show").css({"background":"url("+data.data.url+") no-repeat","background-size":"100%"});
         window.sessionStorage.setItem("url",data.data.url);
+        if($("#show").css({"background":"url("+data.data.url+") no-repeat","background-size":"100%"})){
+		   console.log(data.data.url)
+		   $("#show").hover(
+									function(){
+										$("#filea").css("background-color","black");
+										$("#filea").css("opacity","0.3");	
+	  				},function(){
+										$("#filea").css("opacity","0");
+	  				})
+		}
     }).fail(function(res) {
 
     });

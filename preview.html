@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>象塔直播-引导图</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="css/global.css">
+		<link rel="stylesheet" href="css/settings.css">
+		<link rel="stylesheet" href="layui/css/layui.css">
+		  <link rel="stylesheet" href="css/ProgressBarWars.css"/>
+	</head>
+
+	<body>
+		<div class="container">
+			<header class="top"></header>
+			<section class="body">
+				<div class="wrapper">
+					<header class="cn"></header>
+					<div class="content-warp">
+						<div class="leftnav fl" id="navBar">
+						</div>
+						<div class="content">
+							<div class="content_l fl">
+								<img src="images/preview.png" alt="">
+							</div>
+							<div class="content_r fl">
+								<div class="window_box">
+									<div class="window_title">
+										<span>直播间封面</span>
+									</div>
+									<!--开关层-->
+									<div class="window_content">
+										<div class="floor_top" style="padding-top:20px;height:75px">
+											<form class="layui-form" action="">
+												<div class="layui-form-item">
+													<label class="layui-form-label" style="width:160px;font-size:18px;text-align: left">直播间封面显示：</label>
+													<div class="layui-input-block">
+														<input id="switch" type="checkbox" id="switch" name="open" lay-skin="switch" lay-filter="switchTest" title="开关">
+														<div class="layui-unselect layui-form-switch layui-form-onswitch"><i></i></div>
+													</div>
+												</div>
+											</form>
+										</div>
+
+										<!--内容层-->
+										<div class="floor_bg_text">
+
+											<div class="long_content_box fl">
+												<img class="header_img floor_bg" id="floor_bg" src="images/previewbg.png">
+												<!--进度条-->
+												<div class="progressbox">
+													<!--<div id="progtext"></div>-->
+													<div class="progress" id="prog"></div>
+												</div>
+											</div>
+
+											<div class="floor_text">
+												<p class="warn_box">
+													<span class="red_warn">*</span>
+													<span>图片大小2M以内，支持PNG、JPG、JPEG格式。</span>
+												</p>
+												<p class="warn_box">
+													<span class="red_warn">*</span>
+													<span>请注意必须上传的图片必须是750*1206像素比的图片</span>
+												</p>
+												<p class="warn_box">
+													<span>&nbsp;&nbsp;&nbsp;请修改好您的图片尺寸，注意图片清晰</span>
+												</p>
+												<label class="select_btn" style="display: inline-block;cursor: pointer">修改图片 <input id="bgImg" type="file" style="position: absolute;z-index:-1;"></label>
+											</div>
+										</div>
+
+										<!--按钮层-->
+										<div class="floor_bottom floor_baocun" style="border: none;">
+											<button class="btn-merge fr" id="saveButton">保存</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="layui/layui.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/use.js"></script>
+				<!--进度条引入js-->
+		<script src="js/ProgressBarWars.js"></script>
+		<script>
+			getHardsize();
+
+			function getHardsize() {
+				$.ajax({
+					type: "post",
+					url: website + "mAccount/getHardSize.do",
+					dataType: "json",
+					success: function(data) {
+						if(data.code == 1013) {
+							location.href = website + "webow/login.html";
+						}
+					}
+				});
+			}
+		</script>
+		<script>
+			getcn('channel');
+			var liveid = null;
+			$(function() {
+				$(".gomenu").attr("href", "menu.html?liveid=" + liveid);
+				$.ajax({
+					type: "POST",
+					dataType: 'JSON',
+					url: website + 'mivechannel/getLiveSet.do',
+					data: {
+						'liveid': liveid,
+						'types': 18
+					},
+					success: function(result) {
+						if(result) {
+							var inviteImg = result.data.leaderimg;
+							var inviteopen = result.data.leaderimgOpen;
+							$("#floor_bg").prop("src", inviteImg);
+							if(result.success) {
+								$("#floor_bg").prop("src", inviteImg);
+								if(result.success) {
+									if(inviteopen == 0) {
+										$('#switch').prop('checked', false)
+									} else {
+										$('#switch').prop('checked', true);
+										$('.layui-unselect').addClass('layui-form-onswitch');
+									}
+								}
+							} else {
+								layer.msg(result.msg);
+							}
+						}
+					},
+					error: function() {
+						console.log("error");
+					}
+				})
+
+				//上传图片
+				$("#bgImg").on("change", function(event) {
+					event.preventDefault();
+					//查看是否有图片
+					var logo = $("#bgImg").val();
+					if(logo == null || logo == '') {
+						return;
+					}
+					//上传图片
+					uploadImg($("#bgImg")[0].files[0], 1, liveid);
+				});
+				layui.use('form', function() {
+					var form = layui.form();
+				});
+				layui.use('laydate', function() {
+					var laydate = layui.laydate;
+				});
+
+				$('body').on('click', '#saveButton', function() {
+					var status = $('#switch').is(':checked') ? 1 : 0;
+					var bgimg = $('#floor_bg').attr('src');
+					$.ajax({
+						type: "POST",
+						dataType: 'JSON',
+						url: website + 'mLivesetting/setSomeSet.do',
+						data: {
+							'liveid': liveid,
+							'type': 12,
+							'status': status,
+							'img': bgimg
+						},
+						beforeSend: function() {
+							$('#saveButton').attr('disabled', true);
+						},
+						success: function(result) {
+							if(result) {
+								if(result.success) {
+									layer.msg('保存成功');
+								} else {
+									layer.msg(msg);
+								}
+							}
+
+						},
+						complete: function() {
+							$('#saveButton').attr('disabled', false);
+						},
+						error: function() {
+							console.log("error");
+						}
+					})
+				})
+			})
+		</script>
+	</body>
+
+</html>

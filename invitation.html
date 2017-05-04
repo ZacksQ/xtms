@@ -135,12 +135,11 @@ getcn('channel');
       success: function (result) {
         if (result) {
           var inviteopen = result.data.inviteCard.inviteopen;
-          var invitetime = result.data.inviteCard.invitetime;
           var inviteImg =  result.data.inviteCard.inviteImg;
           $("#floor_bg").prop("src",inviteImg);
          if(result.success){
          	 var inviteImg =  result.data.inviteCard.inviteImg;
-          $("#floor_bg").prop("src",inviteImg);
+           $("#floor_bg").prop("src",inviteImg);
            if(result.success){
              if(inviteopen == 0){
                $('#switch').prop('checked',false)
@@ -179,7 +178,6 @@ getcn('channel');
     
     $('body').on('click', '#saveButton', function () {
       var status = $('#switch').is(':checked') ? 1 : 0;
-      var time = $('#time').val();
       var bgimg = $('#bgImg').attr('src');
       if (status == 1 && time == '') {
         layer.msg('时间不能为空');
@@ -194,7 +192,6 @@ getcn('channel');
           'liveid': liveid,
           'type': 2,
           'status': status,
-          'time': time,
           'inviteImg': filename
         },
         beforeSend: function () {
